@@ -26,7 +26,7 @@ const router_init = (permissions) => {
 const page_permission = (permissions, to_path, next) => {
   let allow_page = false
   permissions.forEach(function (v) {
-    if (v.path == to_path) {
+    if (v.path === to_path) {
       allow_page = true
     }
   })
