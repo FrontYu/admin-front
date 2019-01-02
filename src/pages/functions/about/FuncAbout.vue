@@ -18,6 +18,11 @@
           https://github.com/linjinze999/vue-llplatform
         </a>
       </p>
+       <p>
+        <a style="color: #409eff" href="https://github.com/taylorchen709/vue-admin" target="_blank">
+          https://github.com/taylorchen709/vue-admin
+        </a>
+      </p>
     </div>
   </el-card>
 </template>

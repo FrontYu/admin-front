@@ -39,7 +39,9 @@ export default {
     settings: 'Settings',
     modifyPass: 'Change Password',
     permissions: 'Permissions',
-    about: 'About'
+    about: 'About',
+    sys:'System',
+    userManage:'User Manage'
   },
   header: {
     languageSelect: 'Language',

@@ -146,7 +146,7 @@
         })
       },
       handleSizeChange(size) {
-        this.pagesize = size
+        this.pageSize = size
       },
       handleCurrentChange(currentPage) {
         this.currentPage = currentPage

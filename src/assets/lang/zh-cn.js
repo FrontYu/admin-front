@@ -39,7 +39,9 @@ export default {
     settings: '个人设置',
     modifyPass: '修改密码',
     permissions: '用户权限',
-    about: '关于项目'
+    about: '关于项目', 
+    sys:'系统设置',
+    userManage:'用户管理'
   },
   header: {
     languageSelect: '选择语言',
