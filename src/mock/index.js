@@ -61,5 +61,17 @@ export default {
         }]
       }
     })
+
+    Mock.mock('/api/sys/user/query', {
+      'success': true,
+      'result': {
+        'data|20': [{
+          'realName|1': [Mock.mock('@cname')],
+          'userName|1': [Mock.mock('@name')],
+          'email|1': [Mock.mock('@email')],
+          'phone|1': /^1[385][1-9]\d{8}/
+        }]
+      }
+    })
   }
 }
