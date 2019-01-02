@@ -15,16 +15,10 @@ a {
 }
 
 /* [vue-scroll] show when hover */
-.__vuescroll:hover {
-  >.__rail-is-vertical {
-    .__bar-is-vertical {
-      opacity: 1 !important;
-    }
-  }
+.__vuescroll:hover > .__rail-is-vertical .__bar-is-vertical {
+  opacity: 1 !important;
+}
 
-  >.__rail-is-horizontal {
-    .__bar-is-horizontal {
-      opacity: 1 !important;
-    }
-  }
+.__vuescroll:hover > .__rail-is-horizontal .__bar-is-horizontal {
+  opacity: 1 !important;
 }

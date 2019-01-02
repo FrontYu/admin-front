@@ -19,3 +19,18 @@ export const requestUserInfo = params => {
     return data
   })
 }
+
+export const requestLogout = params => {
+  return request('/api/user/logout', params)
+}
+
+export const requestChangePassword = params => {
+  return request('/api/user/changePassword', params).then(data => {
+    localStorage.setItem('user-token', JSON.stringify(data.token))
+    return data
+  })
+}
+
+export const requestUserQuery = params => {
+  return request('/api/user/query', params)
+}

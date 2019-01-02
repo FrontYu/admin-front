@@ -3,9 +3,9 @@
     <el-col :span="24">
       <the-header :open-nav="openNav" @toggle-open="toggleOpen"></the-header>
     </el-col>
-    <el-col :span="24">
+    <el-col :span="24" class="page-main">
       <the-sidebar :open-nav="openNav"></the-sidebar>
-      <section class="page-content" :class="{'page-content-hide-aside':!openNav}">
+      <section class="page-content" :class="{'page-content-hide-aside': !openNav}">
         <vue-scroll>
           <the-main></the-main>
           <the-footer></the-footer>
@@ -20,6 +20,7 @@
   import TheLayoutSidebar from './TheLayoutSidebar'
   import TheLayoutFooter from './TheLayoutFooter'
   import TheLayoutMain from './TheLayoutMain'
+
   export default {
     name: 'TheLayout',
     data() {
@@ -42,7 +43,7 @@
 
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
   .page {
     position: absolute;
     left: 0;
