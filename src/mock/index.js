@@ -38,8 +38,10 @@ export default {
           path: '/user/password'
         }, {
           path: '/about'
-        },{
-          path:'/sys/user/list'
+        }, {
+          path: '/sys/user/list'
+        }, {
+          path: '/sys/review/list'
         }]
       },
       'error': {
@@ -68,10 +70,21 @@ export default {
       'success': true,
       'result': {
         'data|20': [{
-          'realName|1': [Mock.mock('@cname'),Mock.mock('@cname'),Mock.mock('@cname')],
-          'userName|1': [Mock.mock('@name'),Mock.mock('@name'),Mock.mock('@name')],
+          'realName|1': [Mock.mock('@cname'), Mock.mock('@cname'), Mock.mock('@cname')],
+          'userName|1': [Mock.mock('@name'), Mock.mock('@name'), Mock.mock('@name')],
           'email|1': [Mock.mock('@email')],
           'phone|1': /^1[385][1-9]\d{8}/
+        }]
+      }
+    })
+    Mock.mock('/api/sys/review/query', {
+      'success': true,
+      'result': {
+        'data': [{
+          'inReview': "1",
+          'version': "v1.0",
+          'channel': 1,
+          'memo': "iOS"
         }]
       }
     })

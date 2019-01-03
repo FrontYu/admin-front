@@ -40,8 +40,9 @@ export default {
     modifyPass: 'Change Password',
     permissions: 'Permissions',
     about: 'About',
-    sys:'System',
-    userManage:'User Manage'
+    sys: 'System',
+    userManage: 'User Manage',
+    reviewManage: 'Review Manage'
   },
   header: {
     languageSelect: 'Language',

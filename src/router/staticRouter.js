@@ -10,6 +10,7 @@ import FuncAbout from '@/pages/functions/about/FuncAbout'
 import FuncFormsBase from '@/pages/functions/forms/FuncFormsBase'
 import FuncFormsEdit from '@/pages/functions/forms/FuncFormsEdit'
 import SysUserList from '@/pages/sys/user/SysUserList'
+import SysReviewList from '@/pages/sys/review/SysReviewList'
 
 /** 静态页面路由 */
 const staticRouter = [{
@@ -80,22 +81,22 @@ const staticRouter = [{
     icon: 'el-icon-star-off',
     component: FuncAbout
   }]
-},{
+}, {
   path: '/',
   component: TheLayout,
   menu: true,
   name: 'menu.sys',
   icon: 'el-icon-setting',
   children: [{
-    path: '/forms/base',
-    name: 'menu.formBase',
-    component: FuncFormsBase
-  }, {
     path: '/sys/user/list',
     name: 'menu.userManage',
     component: SysUserList
+  }, {
+    path: '/sys/review/list',
+    name: 'menu.reviewManage',
+    component: SysReviewList
   }]
-},  {
+}, {
   path: '/error/401',
   name: '错误401',
   component: AppError401
