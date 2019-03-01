@@ -42,7 +42,9 @@ export default {
     about: '关于项目',
     sys: '系统设置',
     userManage: '用户管理',
-    reviewManage: '审核管理'
+    reviewManage: '审核管理',
+    count: '统计',
+    countOrder: '订单统计'
   },
   header: {
     languageSelect: '选择语言',

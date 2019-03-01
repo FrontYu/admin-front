@@ -3,5 +3,5 @@ import {
 } from '../../utils/request'
 
 export const requestSysReviewQuery = params => {
-  return request('/api/sys/review/query', params)
+  return request('GET', '/api/sys/review/query', params)
 }

@@ -42,7 +42,9 @@ export default {
     about: 'About',
     sys: 'System',
     userManage: 'User Manage',
-    reviewManage: 'Review Manage'
+    reviewManage: 'Review Manage',
+    count: 'Count',
+    countOrder: 'Count Order'
   },
   header: {
     languageSelect: 'Language',

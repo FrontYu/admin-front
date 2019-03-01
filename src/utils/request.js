@@ -40,16 +40,17 @@ import {
  *
  **/
 /* 为每个请求设置默认baseURL，并添加token */
-axios.defaults.baseURL = ''
+// axios.defaults.baseURL = ''
+axios.defaults.baseURL = 'http://localhost:8080'
 axios.interceptors.request.use(function (config) {
-  config.headers.Authorization = localStorage.getItem('user-token')
+//   config.headers.Authorization = localStorage.getItem('user-token')
   return config
 })
 
 /* 普通请求 */
-export const request = (url, params, config = {}, auto_error_res = true, auto_error_data = true) => {
+export const request = (method, url, params, config = {}, auto_error_res = true, auto_error_data = true) => {
   const args = Object.assign({
-    'method': 'post',
+    'method': method,
     'url': url,
     'data': params
   }, config)

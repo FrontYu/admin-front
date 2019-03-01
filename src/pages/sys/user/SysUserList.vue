@@ -32,12 +32,12 @@
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="名称">
           <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.realName }}</span>
+            <span style="margin-left: 10px">{{ scope.row.realname }}</span>
           </template>
         </el-table-column>
         <el-table-column label="用户名">
           <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.userName }}</span>
+            <span style="margin-left: 10px">{{ scope.row.username }}</span>
           </template>
         </el-table-column>
         <el-table-column label="邮箱">
@@ -72,10 +72,10 @@
       <el-dialog title="用户信息" :visible.sync="dialogFormVisible">
         <el-form :model="form">
           <el-form-item label="名称" label-width="120px">
-            <el-input v-model="form.realName" auto-complete="off"></el-input>
+            <el-input v-model="form.realname" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="用户名" label-width="120px">
-            <el-input v-model="form.userName" auto-complete="off"></el-input>
+            <el-input v-model="form.username" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="邮箱" label-width="120px">
             <el-input v-model="form.email" auto-complete="off"></el-input>
@@ -131,8 +131,8 @@
         dialogFormVisible: false,
         listLoading: false,
         form: {
-          realName: '',
-          userName: '',
+          realname: '',
+          username: '',
           email: '',
           phone: '',
           index: 0
@@ -166,8 +166,8 @@
       //   新增
       handleAdd() {
         this.form = {
-          realName: '',
-          userName: '',
+          realname: '',
+          username: '',
           email: '',
           phone: '',
           index: -1
@@ -176,8 +176,8 @@
       },
       addUser() {
         let newData = {
-          realName: this.form.realName,
-          userName: this.form.userName,
+          realName: this.form.realname,
+          userName: this.form.username,
           email: this.form.email,
           phone: this.form.phone,
           index: this.tableData.length
@@ -195,15 +195,15 @@
       //   修改
       handleEdit(index, row) {
         this.form.index = index + (this.currentPage - 1) * this.pageSize
-        this.form.realName = row.realName
-        this.form.userName = row.userName
+        this.form.realname = row.realname
+        this.form.username = row.username
         this.form.email = row.email
         this.form.phone = row.phone
         this.dialogFormVisible = true
       },
       editUser() {
-        this.tableData[this.form.index].realName = this.form.realName
-        this.tableData[this.form.index].userName = this.form.userName
+        this.tableData[this.form.index].realname = this.form.realname
+        this.tableData[this.form.index].username = this.form.username
         this.tableData[this.form.index].email = this.form.email
         this.tableData[this.form.index].phone = this.form.phone
         this.dialogFormVisible = false

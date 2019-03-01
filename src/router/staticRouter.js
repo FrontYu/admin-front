@@ -11,6 +11,7 @@ import FuncFormsBase from '@/pages/functions/forms/FuncFormsBase'
 import FuncFormsEdit from '@/pages/functions/forms/FuncFormsEdit'
 import SysUserList from '@/pages/sys/user/SysUserList'
 import SysReviewList from '@/pages/sys/review/SysReviewList'
+import CountOrderList from '@/pages/count/order/CountOrderList'
 
 /** 静态页面路由 */
 const staticRouter = [{
@@ -95,6 +96,17 @@ const staticRouter = [{
     path: '/sys/review/list',
     name: 'menu.reviewManage',
     component: SysReviewList
+  }]
+}, {
+  path: '/',
+  component: TheLayout,
+  menu: true,
+  name: 'menu.count',
+  icon: 'el-icon-setting',
+  children: [{
+    path: '/count/order/list',
+    name: 'menu.countOrder',
+    component: CountOrderList
   }]
 }, {
   path: '/error/401',
