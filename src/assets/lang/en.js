@@ -41,10 +41,12 @@ export default {
     permissions: 'Permissions',
     about: 'About',
     sys: 'System',
-    userManage: 'User Manage',
+    sysUserManage: 'System User Manage',
     reviewManage: 'Review Manage',
     count: 'Count',
-    countOrder: 'Count Order'
+    countOrder: 'Count Order',
+    user: 'User',
+    userService: 'User Service'
   },
   header: {
     languageSelect: 'Language',

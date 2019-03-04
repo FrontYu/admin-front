@@ -41,10 +41,12 @@ export default {
     permissions: '用户权限',
     about: '关于项目',
     sys: '系统设置',
-    userManage: '用户管理',
+    sysUserManage: '系统用户管理',
     reviewManage: '审核管理',
     count: '统计',
-    countOrder: '订单统计'
+    countOrder: '订单统计',
+    user: '用户管理',
+    userService: '服务管理'
   },
   header: {
     languageSelect: '选择语言',

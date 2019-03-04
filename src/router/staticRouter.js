@@ -12,6 +12,7 @@ import FuncFormsEdit from '@/pages/functions/forms/FuncFormsEdit'
 import SysUserList from '@/pages/sys/user/SysUserList'
 import SysReviewList from '@/pages/sys/review/SysReviewList'
 import CountOrderList from '@/pages/count/order/CountOrderList'
+import UserServiceList from '@/pages/user/service/UserServiceList'
 
 /** 静态页面路由 */
 const staticRouter = [{
@@ -90,7 +91,7 @@ const staticRouter = [{
   icon: 'el-icon-setting',
   children: [{
     path: '/sys/user/list',
-    name: 'menu.userManage',
+    name: 'menu.sysUserManage',
     component: SysUserList
   }, {
     path: '/sys/review/list',
@@ -104,9 +105,34 @@ const staticRouter = [{
   name: 'menu.count',
   icon: 'el-icon-setting',
   children: [{
-    path: '/count/order/list',
-    name: 'menu.countOrder',
-    component: CountOrderList
+      path: '/count/order/list',
+      name: 'menu.countOrder',
+      component: CountOrderList
+    },
+    {
+      path: '/count/order/list',
+      name: 'menu.countOrder',
+      component: CountOrderList
+    }
+  ]
+}, {
+  path: '/',
+  component: TheLayout,
+  menu: true,
+  name: 'menu.user',
+  icon: 'el-icon-setting',
+  children: [{
+    path: '/user/service/list',
+    name: 'menu.userService',
+    component: UserServiceList
+  }, {
+    path: '/user/service/list',
+    name: 'menu.userService',
+    component: UserServiceList
+  }, {
+    path: '/user/service/list',
+    name: 'menu.userService',
+    component: UserServiceList
   }]
 }, {
   path: '/error/401',
