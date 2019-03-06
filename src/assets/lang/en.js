@@ -40,13 +40,30 @@ export default {
     modifyPass: 'Change Password',
     permissions: 'Permissions',
     about: 'About',
+
     sys: 'System',
     sysUserManage: 'System User Manage',
     reviewManage: 'Review Manage',
+
     count: 'Count',
     countOrder: 'Count Order',
+    countRegist: 'Count Regist',
+
     user: 'User',
-    userService: 'User Service'
+    userManage: 'User Manage',
+    userService: 'User Service',
+    userFeedback: 'User Feedback',
+
+    coupon: 'Coupon',
+    couponManage: 'Coupon Manage',
+    couponActivity: 'Activity Setting',
+    couponRecord: 'Receive Record',
+
+    product: 'Product',
+    productManage: 'Product Manage',
+    productPrice: 'Price Setting',
+    packageProduct: 'Package Setting',
+    recommendProduct: 'Recommend Setting',
   },
   header: {
     languageSelect: 'Language',

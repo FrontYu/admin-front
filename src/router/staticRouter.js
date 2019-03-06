@@ -9,10 +9,26 @@ import FuncUserPassword from '@/pages/functions/user/FuncUserPassword'
 import FuncAbout from '@/pages/functions/about/FuncAbout'
 import FuncFormsBase from '@/pages/functions/forms/FuncFormsBase'
 import FuncFormsEdit from '@/pages/functions/forms/FuncFormsEdit'
+
 import SysUserList from '@/pages/sys/user/SysUserList'
 import SysReviewList from '@/pages/sys/review/SysReviewList'
+
 import CountOrderList from '@/pages/count/order/CountOrderList'
+import CountRegistList from '@/pages/count/regist/CountRegistList'
+
+import UserManageList from '@/pages/user/manage/UserManageList'
 import UserServiceList from '@/pages/user/service/UserServiceList'
+import UserFeedbackList from '@/pages/user/feedback/UserFeedbackList'
+
+import CouponManageList from '@/pages/coupon/manage/CouponManageList'
+import CouponActivityList from '@/pages/coupon/activity/CouponActivityList'
+import CouponReceiveRecordList from '@/pages/coupon/record/CouponReceiveRecordList'
+
+import ProductManageList from '@/pages/product/manage/ProductManageList'
+import ProductPriceList from '@/pages/product/price/ProductPriceList'
+import PackageProductList from '@/pages/product/package/PackageProductList'
+import RecommendProductList from '@/pages/product/recommend/RecommendProductList'
+
 
 /** 静态页面路由 */
 const staticRouter = [{
@@ -110,9 +126,9 @@ const staticRouter = [{
       component: CountOrderList
     },
     {
-      path: '/count/order/list',
-      name: 'menu.countOrder',
-      component: CountOrderList
+      path: '/count/regist/list',
+      name: 'menu.countRegist',
+      component: CountRegistList
     }
   ]
 }, {
@@ -122,17 +138,59 @@ const staticRouter = [{
   name: 'menu.user',
   icon: 'el-icon-setting',
   children: [{
-    path: '/user/service/list',
-    name: 'menu.userService',
-    component: UserServiceList
+    path: '/user/manage/list',
+    name: 'menu.userManage',
+    component: UserManageList
   }, {
     path: '/user/service/list',
     name: 'menu.userService',
     component: UserServiceList
   }, {
-    path: '/user/service/list',
-    name: 'menu.userService',
-    component: UserServiceList
+    path: '/user/feedback/list',
+    name: 'menu.userFeedback',
+    component: UserFeedbackList
+  }]
+}, {
+  path: '/',
+  component: TheLayout,
+  menu: true,
+  name: 'menu.coupon',
+  icon: 'el-icon-setting',
+  children: [{
+    path: '/coupon/manage/list',
+    name: 'menu.couponManage',
+    component: CouponManageList
+  }, {
+    path: '/coupon/activity/list',
+    name: 'menu.couponActivity',
+    component: CouponActivityList
+  }, {
+    path: '/coupon/record/list',
+    name: 'menu.couponRecord',
+    component: CouponReceiveRecordList
+  }]
+}, {
+  path: '/',
+  component: TheLayout,
+  menu: true,
+  name: 'menu.product',
+  icon: 'el-icon-setting',
+  children: [{
+    path: '/product/manage/list',
+    name: 'menu.productManage',
+    component: ProductManageList
+  }, {
+    path: '/product/price/list',
+    name: 'menu.productPrice',
+    component: ProductPriceList
+  }, {
+    path: '/product/package/list',
+    name: 'menu.packageProduct',
+    component: PackageProductList
+  }, {
+    path: '/product/recommend/list',
+    name: 'menu.recommendProduct',
+    component: RecommendProductList
   }]
 }, {
   path: '/error/401',

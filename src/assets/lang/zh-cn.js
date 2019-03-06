@@ -43,10 +43,26 @@ export default {
     sys: '系统设置',
     sysUserManage: '系统用户管理',
     reviewManage: '审核管理',
-    count: '统计',
+
+    count: '统计模块',
     countOrder: '订单统计',
-    user: '用户管理',
-    userService: '服务管理'
+    countRegist: '注册统计',
+
+    user: '用户模块',
+    userManage: '用户管理',
+    userService: '用户服务',
+    userFeedback: '用户反馈',
+
+    coupon: '优惠券模块',
+    couponManage: '优惠券管理',
+    couponActivity: '活动配置',
+    couponRecord: '领取记录',
+
+    product: '产品模块',
+    productManage: '产品管理',
+    productPrice: '价格设置',
+    packageProduct: '套餐设置',
+    recommendProduct: '推荐设置',
   },
   header: {
     languageSelect: '选择语言',

@@ -2,8 +2,8 @@
   <div>
     <el-breadcrumb>
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-      <el-breadcrumb-item>服务管理</el-breadcrumb-item>
+      <el-breadcrumb-item>用户模块</el-breadcrumb-item>
+      <el-breadcrumb-item>用户服务</el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-card style="margin-top: 20px;">
@@ -18,8 +18,7 @@
         </el-form-item>
         <el-form-item label="服务名" prop="product_name">
           <el-select v-model="searchForm.product_name" filterable placeholder="请选择" @change="searchSelect">
-            <el-option v-for="item in productData" :key="item.product_class" :label="item.product_name" :value="item.product_class">
-            </el-option>
+            <el-option v-for="item in productData" :key="item.product_class" :label="item.product_name" :value="item.product_class"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -28,12 +27,10 @@
         <el-form-item>
           <el-button type="primary" @click="resetSubmit()">重置</el-button>
         </el-form-item>
-
       </el-form>
       <!-- 列表 -->
       <el-table :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)" v-loading="listLoading" border
         style="width: 100%">
-
         <el-table-column label="序号" align="center">
           <template slot-scope="scope">
             <span style="margin-left:10px;">{{ scope.row.id}}</span>
@@ -51,11 +48,9 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="start_date" label="开始时间" :formatter="dateFormat" align="center">
-        </el-table-column>
+        <el-table-column prop="start_date" label="开始时间" :formatter="dateFormat" align="center"></el-table-column>
 
-        <el-table-column prop="end_date" label="结束时间" :formatter="dateFormat" align="center">
-        </el-table-column>
+        <el-table-column prop="end_date" label="结束时间" :formatter="dateFormat" align="center"></el-table-column>
 
         <el-table-column label="服务状态" align="center">
           <template slot-scope="scope">
@@ -70,7 +65,6 @@
             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
-
       </el-table>
       <!-- 分页 -->
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" background :current-page="currentPage"
@@ -86,14 +80,12 @@
 
           <el-form-item label="服务名" label-width="120px">
             <el-select v-model="form.product_name" filterable placeholder="请选择" @change="currentSelect">
-              <el-option v-for="item in productData" :key="item.product_class" :label="item.product_name" :value="item.product_class">
-              </el-option>
+              <el-option v-for="item in productData" :key="item.product_class" :label="item.product_name" :value="item.product_class"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="服务时间" label-width="120px">
             <el-date-picker v-model="form.date_range" type="datetimerange" range-separator="至" start-placeholder="开始日期"
-              end-placeholder="结束日期" align="right">
-            </el-date-picker>
+              end-placeholder="结束日期" align="right"></el-date-picker>
           </el-form-item>
 
           <el-form-item label="服务状态" label-width="120px">
@@ -119,15 +111,15 @@
   import {
     requestProductQuery
   } from '@/api/product/product'
-  let moment = require("moment");
+  let moment = require("moment")
   export default {
     name: 'UserServiceList',
     data() {
       return {
         tableData: [],
         rules: {
-          param1: [{
-              required: true,
+          userid: [{
+              required: false,
               message: '请输入',
               trigger: 'blur'
             },
@@ -138,8 +130,8 @@
               trigger: 'blur'
             }
           ],
-          param2: [{
-            required: true,
+          product_name: [{
+            required: false,
             message: '请选择',
             trigger: 'change'
           }]
@@ -250,22 +242,27 @@
         }
         console.log("add serivce:", newData)
         requestUserServiceAdd(newData).then(res => {
-          newData.id = res.id
+          if (0 === res.id) {
+            this.$message.error('添加失败')
+          } else {
+            newData.id = res.id
 
-          var tmpData = []
-          tmpData.push(newData)
-          this.tableData.forEach(item => {
-            tmpData.push(item)
-          })
+            var tmpData = []
+            tmpData.push(newData)
+            this.tableData.forEach(item => {
+              tmpData.push(item)
+            })
 
-          this.tableData = tmpData
-          this.pageTotal = this.tableData.length
-          this.dialogFormVisible = false
+            this.tableData = tmpData
+            this.pageTotal = this.tableData.length
+            this.dialogFormVisible = false
 
-          this.$message({
-            message: '添加成功',
-            type: 'success'
-          })
+            this.$message({
+              message: '添加成功',
+              type: 'success'
+            })
+          }
+
         }).catch(err => {
           console.log(err)
         })
