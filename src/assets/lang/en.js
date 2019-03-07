@@ -64,6 +64,16 @@ export default {
     productPrice: 'Price Setting',
     packageProduct: 'Package Setting',
     recommendProduct: 'Recommend Setting',
+
+    content: 'Content',
+    copywriter: 'Copywriter',
+    bannerManage: 'Banner Manage',
+    startPageManage: 'Startpage Manage',
+    searchRecommend: 'Search Recommend',
+    marketingLabel: 'Marketing Label',
+
+    homepage: 'Homepage',
+    columnManage: 'Column Manage',
   },
   header: {
     languageSelect: 'Language',

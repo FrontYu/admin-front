@@ -63,6 +63,17 @@ export default {
     productPrice: '价格设置',
     packageProduct: '套餐设置',
     recommendProduct: '推荐设置',
+
+    content: '内容模块',
+    copywriter: '文案模块',
+    bannerManage: '轮播图管理',
+    startPageManage: '启动页',
+    searchRecommend: '搜索推荐',
+    marketingLabel: '行情标签',
+
+    homepage: '首页模块',
+    columnManage: '栏目管理',
+
   },
   header: {
     languageSelect: '选择语言',
