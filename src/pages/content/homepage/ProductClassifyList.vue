@@ -1,0 +1,153 @@
+<template>
+  <div>
+    <el-breadcrumb>
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>内容模块</el-breadcrumb-item>
+      <el-breadcrumb-item>首页模块</el-breadcrumb-item>
+      <el-breadcrumb-item>产品分类</el-breadcrumb-item>
+    </el-breadcrumb>
+
+    <el-card style="margin-top: 20px;">
+
+      <!-- 列表 -->
+      <el-table :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)" v-loading="listLoading" border
+        style="width: 100%">
+        <el-table-column label="产品分类名称" align="center">
+          <template slot-scope="scope">
+            <span style="margin-left:10px;">{{ scope.row.product_type_name}}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="产品分类描述" align="center">
+          <template slot-scope="scope">
+            <span style="margin-left:10px;">{{ scope.row.product_type_desc}}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="icon图片" align="center" height="10px">
+          <template slot-scope="scope">
+            <el-popover placement="right" title="" trigger="hover">
+              <img :src="scope.row.small_icon_url" style="max-height: 200px;max-width: 200px" />
+              <img slot="reference" :src="scope.row.small_icon_url" :alt="scope.row.small_icon_url" style="max-height: 50px;max-width: 50px">
+            </el-popover>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="列表图片" align="center" height="10px">
+          <template slot-scope="scope">
+            <el-popover placement="right" title="" trigger="hover">
+              <img :src="scope.row.list_icon_url" style="max-height: 200px;max-width: 600px" />
+              <img slot="reference" :src="scope.row.list_icon_url" :alt="scope.row.list_icon_url" style="max-height: 50px;max-width: 130px">
+            </el-popover>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="内部跳转地址" align="center">
+          <template slot-scope="scope">
+            <span style="margin-left:10px;">{{ scope.row.inner_jump_url}}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="产品class" align="center">
+          <template slot-scope="scope">
+            <span style="margin-left:10px;">{{ scope.row.product_class}}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="是否新品" align="center">
+          <template slot-scope="scope">
+            <span style="margin-left:10px;">{{ scope.row.is_new}}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="是否审核" align="center">
+          <template slot-scope="scope">
+            <span style="margin-left:10px;">{{ scope.row.in_review}}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="是否显示" align="center">
+          <template slot-scope="scope">
+            <span style="margin-left:10px;">{{ scope.row.is_show}}</span>
+          </template>
+        </el-table-column>
+
+
+        <!-- <el-table-column label="操作" align="center">
+          <template slot-scope="scope">
+            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          </template>
+        </el-table-column> -->
+      </el-table>
+    </el-card>
+  </div>
+</template>
+
+<script>
+  import {
+    requestProductClassifyQuery
+  } from "@/api/content/homepage/productclassify"
+  export default {
+    name: 'ProductClassifyList',
+    data() {
+      return {
+        tableData: [],
+        currentPage: 1,
+        pageSize: 10,
+        pageTotal: 0,
+        listLoading: false,
+        searchForm: {
+
+        },
+      }
+    },
+    methods: {
+      onSubmit(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.getData()
+          } else {
+            console.log('error submit')
+            return false
+          }
+        })
+      },
+      //   获取列表数据 start
+      getData() {
+        this.listLoading = true
+        requestProductClassifyQuery(this.searchForm).then((res) => {
+          this.$message({
+            'message': '查询成功',
+            'type': 'success'
+          })
+          this.pageTotal = res.data.length
+          this.tableData = res.data
+
+          this.listLoading = false
+        })
+
+      },
+      handleSizeChange(size) {
+        this.pageSize = size
+      },
+      handleCurrentChange(currentPage) {
+        this.currentPage = currentPage
+      },
+      //   获取列表数据 end
+      //   列表时间格式化 start
+      dateFormat: function (row, column) {
+        var date = row[column.property]
+        if (date == undefined) {
+          return ""
+        }
+        let moment = require("moment")
+        return moment(date).format("YYYY-MM-DD HH:mm:ss")
+      },
+      //     列表时间格式化 end
+    },
+    mounted() {
+      this.getData()
+    }
+  }
+
+</script>

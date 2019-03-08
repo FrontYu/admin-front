@@ -73,7 +73,14 @@ export default {
 
     homepage: '首页模块',
     columnManage: '栏目管理',
-
+    productColumn: '产品推荐',
+    stockProductColumn: '荐股产品',
+    articleColumn: '首页文章',
+    adColumn: '首页广告',
+    productClassify: '产品分类',
+    shortCutMenu: '快捷菜单',
+    popup: '营销弹窗',
+    suspendAd: '悬浮广告',
   },
   header: {
     languageSelect: '选择语言',

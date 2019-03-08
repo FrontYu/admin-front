@@ -37,6 +37,14 @@ import MarketingLabelList from '@/pages/content/copywriter/MarketingLabelList'
 import SearchRecommendList from '@/pages/content/copywriter/SearchRecommendList'
 
 import ColumnList from '@/pages/content/homepage/ColumnList'
+import ProductColumnList from '@/pages/content/homepage/ProductColumnList'
+import SPColumnList from '@/pages/content/homepage/SPColumnList'
+import ArticleColumnList from '@/pages/content/homepage/ArticleColumnList'
+import AdColumnList from '@/pages/content/homepage/AdColumnList'
+import ProductClassifyList from '@/pages/content/homepage/ProductClassifyList'
+import ShortCutMenuList from '@/pages/content/homepage/ShortCutMenuList'
+import PopupList from '@/pages/content/homepage/PopupList'
+import SuspendAdList from '@/pages/content/homepage/SuspendAdList'
 
 /** 静态页面路由 */
 const staticRouter = [{
@@ -98,6 +106,38 @@ const staticRouter = [{
       path: '/content/homepage/column/list',
       name: 'menu.columnManage',
       component: ColumnList,
+    }, {
+      path: '/content/homepage/productcolumn/list',
+      name: 'menu.productColumn',
+      component: ProductColumnList,
+    }, {
+      path: '/content/homepage/spcolumn/list',
+      name: 'menu.stockProductColumn',
+      component: SPColumnList,
+    }, {
+      path: '/content/homepage/articlecolumn/list',
+      name: 'menu.articleColumn',
+      component: ArticleColumnList,
+    }, {
+      path: '/content/homepage/adcolumn/list',
+      name: 'menu.adColumn',
+      component: AdColumnList,
+    }, {
+      path: '/content/homepage/productclassify/list',
+      name: 'menu.productClassify',
+      component: ProductClassifyList,
+    }, {
+      path: '/content/homepage/shortcutmenu/list',
+      name: 'menu.shortCutMenu',
+      component: ShortCutMenuList,
+    }, {
+      path: '/content/homepage/popup/list',
+      name: 'menu.popup',
+      component: PopupList,
+    }, {
+      path: '/content/homepage/suspendad/list',
+      name: 'menu.suspendAd',
+      component: SuspendAdList,
     }]
   }]
 }, {

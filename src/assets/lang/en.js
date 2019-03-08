@@ -74,6 +74,14 @@ export default {
 
     homepage: 'Homepage',
     columnManage: 'Column Manage',
+    productColumn: 'Product Column',
+    stockProductColumn: 'Stock Product',
+    articleColumn: 'Article Column',
+    adColumn: 'Ad Column',
+    productClassify: 'Product CLassify',
+    shortCutMenu: 'ShortCut Menu',
+    popup: 'Pop Up',
+    suspendAd: 'Suspend  Ad',
   },
   header: {
     languageSelect: 'Language',
