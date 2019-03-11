@@ -54,8 +54,8 @@
 
         <el-table-column label="服务状态" align="center">
           <template slot-scope="scope">
-            <span v-if="scope.row.enable=== 1" style="color: green">服务期内</span>
-            <span v-else style="color: red">服务到期</span>
+            <el-tag v-if="scope.row.enable == 1">服务期内</el-tag>
+            <el-tag type="danger" v-else>服务到期</el-tag>
           </template>
         </el-table-column>
 

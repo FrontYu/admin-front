@@ -35,15 +35,18 @@
 
         <el-table-column label="是否新品" align="center">
           <template slot-scope="scope">
-            <span style="margin-left:10px;">{{ scope.row.is_new}}</span>
+            <el-tag v-if="scope.row.is_new == 1">是</el-tag>
+            <el-tag type="danger" v-else>否</el-tag>
           </template>
         </el-table-column>
 
         <el-table-column label="是否审核" align="center">
           <template slot-scope="scope">
-            <span style="margin-left:10px;">{{ scope.row.in_review}}</span>
+            <el-tag v-if="scope.row.in_review == 1">是</el-tag>
+            <el-tag type="danger" v-else>否</el-tag>
           </template>
         </el-table-column>
+
 
         <el-table-column label="产品class（审核）" align="center">
           <template slot-scope="scope">

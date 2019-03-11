@@ -46,7 +46,8 @@
 
         <el-table-column label="是否显示" align="center">
           <template slot-scope="scope">
-            <span style="margin-left:10px;">{{ scope.row.is_show}}</span>
+            <el-tag v-if="scope.row.is_show == 1">是</el-tag>
+            <el-tag type="danger" v-else>否</el-tag>
           </template>
         </el-table-column>
 
