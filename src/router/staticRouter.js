@@ -24,7 +24,7 @@ import UserFeedbackList from '@/pages/user/feedback/UserFeedbackList'
 
 import CouponManageList from '@/pages/coupon/manage/CouponManageList'
 import CouponActivityList from '@/pages/coupon/activity/CouponActivityList'
-import CouponReceiveRecordList from '@/pages/coupon/record/CouponReceiveRecordList'
+import CouponRecordList from '@/pages/coupon/record/CouponRecordList'
 
 import ProductManageList from '@/pages/product/manage/ProductManageList'
 import ProductPriceList from '@/pages/product/price/ProductPriceList'
@@ -180,7 +180,7 @@ const staticRouter = [{
   }, {
     path: '/coupon/record/list',
     name: 'menu.couponRecord',
-    component: CouponReceiveRecordList
+    component: CouponRecordList
   }]
 }, {
   path: '/',

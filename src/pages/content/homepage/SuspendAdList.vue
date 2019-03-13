@@ -12,11 +12,7 @@
       <!-- 列表 -->
       <el-table :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)" v-loading="listLoading" border
         style="width: 100%">
-        <el-table-column label="活动类型" align="center">
-          <template slot-scope="scope">
-            <span style="margin-left:10px;">{{ scope.row.activity_type}}</span>
-          </template>
-        </el-table-column>
+        <el-table-column prop="activity_type" label="活动类型" :formatter="activityTypeFormat" align="center"></el-table-column>
 
         <el-table-column label="标题" align="center">
           <template slot-scope="scope">
@@ -43,7 +39,7 @@
 
         <el-table-column label="是否显示" align="center">
           <template slot-scope="scope">
-           <el-tag v-if="scope.row.is_show == 1">是</el-tag>
+            <el-tag v-if="scope.row.is_show == 1">是</el-tag>
             <el-tag type="danger" v-else>否</el-tag>
           </template>
         </el-table-column>
@@ -63,7 +59,11 @@
   import {
     requestSuspendAdQuery
   } from "@/api/content/homepage/suspendad"
+  import {
+    GetActivityTypeFormat
+  } from "../../../utils/common.js"
   export default {
+
     name: 'PopupList',
     data() {
       return {
@@ -120,6 +120,9 @@
         return moment(date).format("YYYY-MM-DD HH:mm:ss")
       },
       //     列表时间格式化 end
+      activityTypeFormat: function (row, column) {
+        return GetActivityTypeFormat(row[column.property])
+      }
     },
     mounted() {
       this.getData()

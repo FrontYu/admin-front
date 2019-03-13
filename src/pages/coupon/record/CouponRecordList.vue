@@ -3,7 +3,7 @@
     <el-breadcrumb>
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>优惠券模块</el-breadcrumb-item>
-      <el-breadcrumb-item>优惠券管理</el-breadcrumb-item>
+      <el-breadcrumb-item>领取记录</el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-card style="margin-top: 20px;">
@@ -18,37 +18,31 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="优惠券名称" align="center">
+        <el-table-column label="用户名" align="center">
           <template slot-scope="scope">
-            <span style="margin-left:10px;">{{ scope.row.coupon_name}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="优惠券描述" align="center">
-          <template slot-scope="scope">
-            <span style="margin-left:10px;">{{ scope.row.coupon_desc}}</span>
+            <span style="margin-left:10px;">{{ scope.row.userid}}</span>
           </template>
         </el-table-column>
 
-        <el-table-column label="优惠券类型" align="center">
+        <el-table-column label="来源" align="center">
           <template slot-scope="scope">
-            <span v-if="scope.row.type==1" style="margin-left:10px;">现金券</span>
-            <span v-else-if="scope.row.type==2" style="margin-left:10px;">体验券</span>
-            <span v-else-if="scope.row.type==3" style="margin-left:10px;">首单券</span>
-            <span v-else-if="scope.row.type==4" style="margin-left:10px;">折扣券</span>
+            <span style="margin-left:10px;">{{ scope.row.source}}</span>
           </template>
         </el-table-column>
 
-        <el-table-column label="状态" align="center">
-          <template slot-scope="scope">
-            <el-tag v-if="scope.row.enable == 1">启用</el-tag>
-            <el-tag type="danger" v-else>停用</el-tag>
-          </template>
-        </el-table-column>
-
-
-        <el-table-column label="所属活动" align="center">
+        <el-table-column label="优惠券活动" align="center">
           <template slot-scope="scope">
             <span style="margin-left:10px;">{{ scope.row.activity}}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column prop="expired_date" label="失效时间" :formatter="dateFormat" align="center"></el-table-column>
+
+        <el-table-column label="使用情况" align="center">
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.consume==0">未使用</el-tag>
+            <el-tag type="danger" v-if="scope.row.consume==1">已使用</el-tag>
+            <el-tag type="info" v-if="scope.row.consume==2">已赠送</el-tag>
           </template>
         </el-table-column>
 
@@ -58,16 +52,20 @@
           </template>
         </el-table-column> -->
       </el-table>
+
+      <!-- 分页 -->
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" background :current-page="currentPage"
+        :page-sizes="[10, 20, 30, 40]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageTotal"></el-pagination>
     </el-card>
   </div>
 </template>
 
 <script>
   import {
-    requestCouponQuery
-  } from "@/api/coupon/manage"
+    requestCouponRecordQuery
+  } from "@/api/coupon/record"
   export default {
-    name: 'CouponManageList',
+    name: 'CouponRecordList',
     data() {
       return {
         tableData: [],
@@ -94,7 +92,7 @@
       //   获取列表数据 start
       getData() {
         this.listLoading = true
-        requestCouponQuery(this.searchForm).then((res) => {
+        requestCouponRecordQuery(this.searchForm).then((res) => {
           this.$message({
             'message': '查询成功',
             'type': 'success'
@@ -113,6 +111,16 @@
         this.currentPage = currentPage
       },
       //   获取列表数据 end
+      //   列表时间格式化 start
+      dateFormat: function (row, column) {
+        var date = row[column.property]
+        if (date == undefined) {
+          return ""
+        }
+        let moment = require("moment")
+        return moment(date).format("YYYY-MM-DD HH:mm:ss")
+      },
+      //     列表时间格式化 end
     },
     mounted() {
       this.getData()

@@ -12,11 +12,7 @@
       <!-- 列表 -->
       <el-table :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)" v-loading="listLoading" border
         style="width: 100%">
-        <el-table-column label="活动类型" align="center">
-          <template slot-scope="scope">
-            <span style="margin-left:10px;">{{ scope.row.activity_type}}</span>
-          </template>
-        </el-table-column>
+        <el-table-column prop="activity_type" label="活动类型" :formatter="activityTypeFormat" align="center"></el-table-column>
 
         <el-table-column label="标题" align="center">
           <template slot-scope="scope">
@@ -63,6 +59,9 @@
   import {
     requestPopupQuery
   } from "@/api/content/homepage/popup"
+  import {
+    GetActivityTypeFormat
+  } from "../../../utils/common.js"
   export default {
     name: 'PopupList',
     data() {
@@ -120,6 +119,9 @@
         return moment(date).format("YYYY-MM-DD HH:mm:ss")
       },
       //     列表时间格式化 end
+      activityTypeFormat: function (row, column) {
+        return GetActivityTypeFormat(row[column.property])
+      }
     },
     mounted() {
       this.getData()
