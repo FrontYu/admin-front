@@ -46,17 +46,11 @@
 
         <el-table-column prop="uptime" label="上线时间" :formatter="dateFormat" align="center"></el-table-column>
 
-        <el-table-column label="是否显示" align="center">
+        <el-table-column label="状态" align="center">
           <template slot-scope="scope">
-            <el-tag v-if="scope.row.is_show == 1">是</el-tag>
-            <el-tag type="danger" v-else>否</el-tag>
-          </template>
-        </el-table-column>
-
-        <el-table-column label="是否审核" align="center">
-          <template slot-scope="scope">
-            <el-tag v-if="scope.row.in_review == 1">是</el-tag>
-            <el-tag type="danger" v-else>否</el-tag>
+            <el-tag v-if="scope.row.is_show == 1">显示</el-tag>
+            <el-tag type="danger" v-else>隐藏</el-tag>
+            <el-tag type="danger" v-if="scope.row.in_review == 1">审核</el-tag>
           </template>
         </el-table-column>
 
@@ -66,6 +60,9 @@
           </template>
         </el-table-column> -->
       </el-table>
+      <!-- 分页 -->
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" background :current-page="currentPage"
+        :page-sizes="[10, 20, 30, 40]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageTotal"></el-pagination>
     </el-card>
   </div>
 </template>

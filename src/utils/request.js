@@ -41,7 +41,8 @@ import {
  **/
 /* 为每个请求设置默认baseURL，并添加token */
 // axios.defaults.baseURL = ''
-axios.defaults.baseURL = 'http://localhost:8080'
+axios.defaults.baseURL = 'http://127.0.0.1:9420'
+// axios.defaults.baseURL = 'http://120.25.250.237:9420'
 axios.interceptors.request.use(function (config) {
   //   config.headers.Authorization = localStorage.getItem('user-token')
   return config

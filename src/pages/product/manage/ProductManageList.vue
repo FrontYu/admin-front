@@ -11,7 +11,30 @@
       <!-- 列表 -->
       <el-table :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)" v-loading="listLoading" border
         style="width: 100%">
-
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="产品名">
+                <span>{{ props.row.product_name }}</span>
+              </el-form-item>
+              <el-form-item label="产品class">
+                <span>{{ props.row.product_class }}</span>
+              </el-form-item>
+              <el-form-item label="产品描述">
+                <span>{{ props.row.product_desc }}</span>
+              </el-form-item>
+              <el-form-item label="产品web详情页链接">
+                <span>{{ props.row.product_web_url }}</span>
+              </el-form-item>
+              <el-form-item label="跳转链接">
+                <span>{{ props.row.product_jump_url }}</span>
+              </el-form-item>
+              <el-form-item label="上线时间">
+                <span>{{ props.row.uptime }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
         <el-table-column label="图标" align="center" height="10px">
           <template slot-scope="scope">
             <el-popover placement="right" title="" trigger="hover">
@@ -72,6 +95,9 @@
           </template>
         </el-table-column> -->
       </el-table>
+      <!-- 分页 -->
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" background :current-page="currentPage"
+        :page-sizes="[10, 20, 30, 40]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageTotal"></el-pagination>
     </el-card>
   </div>
 </template>
@@ -134,3 +160,22 @@
   }
 
 </script>
+
+<style>
+  .demo-table-expand {
+    margin-left: 10px;
+    font-size: 0;
+  }
+
+  .demo-table-expand label {
+    width: 150px;
+    color: #99a9bf;
+  }
+
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 80%;
+  }
+
+</style>
