@@ -270,15 +270,26 @@
       //   新增服务 end
       //   修改服务 start
       handleEdit(index, row) {
-        this.form.index = index + (this.currentPage - 1) * this.pageSize
-        this.form.id = row.id
-        this.form.userid = row.userid
-        this.form.product_class = row.product_class
-        this.form.product_name = row.product_name
-        this.form.start_date = row.start_date
-        this.form.end_date = row.end_date
-        this.form.status = row.enable === 1 ? true : false
-        this.form.date_range = [new Date(this.form.start_date), new Date(this.form.end_date)]
+        this.form = {
+          index: index + (this.currentPage - 1) * this.pageSize,
+          id: row.id,
+          userid: row.userid,
+          product_class: row.product_class,
+          product_name: row.product_name,
+          start_date: row.start_date,
+          end_date: row.end_date,
+          status: row.enable === 1 ? true : false,
+          date_range: [new Date(this.form.start_date), new Date(this.form.end_date)]
+        }
+        // this.form.index = index + (this.currentPage - 1) * this.pageSize
+        // this.form.id = row.id
+        // this.form.userid = row.userid
+        // this.form.product_class = row.product_class
+        // this.form.product_name = row.product_name
+        // this.form.start_date = row.start_date
+        // this.form.end_date = row.end_date
+        // this.form.status = row.enable === 1 ? true : false
+        // this.form.date_range = [new Date(this.form.start_date), new Date(this.form.end_date)]
 
         this.dialogFormVisible = true
       },

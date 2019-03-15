@@ -97,27 +97,28 @@
       <!-- 编辑界面 -->
       <!-- 弹窗 -->
       <el-dialog title="轮播图" :visible.sync="dialogFormVisible">
-        <el-form :label-position="labelPosition" :model="editForm" align="left" style="margin-left:20%;">
-          <el-form-item label="位置" label-width="120px">
-            <el-select v-model="editForm.place" filterable placeholder="请选择">
-              <el-option v-for="item in palceData" :key="item.product_class" :label="item.product_name" :value="item.product_class"></el-option>
+        <el-form :label-position="labelPosition" :model="editForm" :rules="editFormRules" ref="editForm" align="left"
+          style="margin-left:20%;">
+          <el-form-item label="位置" label-width="120px" prop="place">
+            <el-select v-model="editForm.place" filterable placeholder="请选择" @change="currentPalceSelect">
+              <el-option v-for="item in placeData" :key="item.id" :label="item.place" :value="item.id"></el-option>
             </el-select>
           </el-form-item>
 
-          <el-form-item label="标题" label-width="120px">
-            <el-input v-model="editForm.title" placeholder="请输入标题" style="width:180px"></el-input>
+          <el-form-item label="标题" label-width="120px" prop="title">
+            <el-input v-model="editForm.title" placeholder="请输入标题" style="width:220px"></el-input>
           </el-form-item>
 
-          <el-form-item label="图片链接" label-width="120px">
-            <el-input v-model="editForm.image_url" placeholder="请输入图片链接" style="width:180px"></el-input>
+          <el-form-item label="图片链接" label-width="120px" prop="image_url">
+            <el-input v-model="editForm.image_url" placeholder="请输入图片链接" style="width:220px"></el-input>
           </el-form-item>
 
-          <el-form-item label="跳转地址" label-width="120px">
-            <el-input v-model="editForm.jump_url" placeholder="请输入跳转地址链接" style="width:180px"></el-input>
+          <el-form-item label="跳转地址" label-width="120px" prop="jump_url">
+            <el-input v-model="editForm.jump_url" placeholder="请输入跳转地址链接" style="width:220px"></el-input>
           </el-form-item>
 
-          <el-form-item label="活动名称" label-width="120px">
-            <el-input v-model="editForm.activity_name" placeholder="请输入活动名称" style="width:180px"></el-input>
+          <el-form-item label="活动名称" label-width="120px" prop="activity_name">
+            <el-input v-model="editForm.activity_name" placeholder="请输入活动名称" style="width:220px"></el-input>
           </el-form-item>
 
           <el-form-item label="上线时间" label-width="120px">
@@ -126,15 +127,34 @@
           </el-form-item>
 
           <el-form-item label="状态" label-width="120px">
-            <el-switch v-model="editForm.show_status" active-text="显示" inactive-text="隐藏"></el-switch>
-            <br>
-            <el-switch v-model="editForm.review_status" active-text="正常" inactive-text="审核"></el-switch>
+            <el-switch v-model="editForm.show_status" active-color="#13ce66" inactive-color="#ff4949" active-text="显示"
+              inactive-text="隐藏"></el-switch>
+          </el-form-item>
+
+          <el-form-item label="审核状态" label-width="120px" prop="in_review">
+            <el-radio-group v-model="editForm.in_review">
+              <el-radio :label="1">审核中</el-radio>
+              <el-radio :label="0">非审核</el-radio>
+            </el-radio-group>
+          </el-form-item>
+
+          <el-form-item label="分享标题" label-width="120px">
+            <el-input v-model="editForm.share_title" placeholder="分享标题" style="width:220px"></el-input>
+          </el-form-item>
+          <el-form-item label="分享图片链接" label-width="120px">
+            <el-input v-model="editForm.share_icon_url" placeholder="分享图片链接" style="width:220px"></el-input>
+          </el-form-item>
+          <el-form-item label="分享跳转地址" label-width="120px">
+            <el-input v-model="editForm.share_url" placeholder="分享跳转地址" style="width:220px"></el-input>
+          </el-form-item>
+          <el-form-item label="分享描述" label-width="120px">
+            <el-input v-model="editForm.share_desc" placeholder="分享描述" style="width:220px"></el-input>
           </el-form-item>
 
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="submitEdit()">确 定</el-button>
+          <el-button type="primary" @click="submitEdit('editForm')">确 定</el-button>
         </div>
       </el-dialog>
 
@@ -144,8 +164,12 @@
 
 <script>
   import {
-    requestBannerQuery
+    requestBannerQuery,
+    requestBannerPlaceQuery,
+    requestBannerAdd,
+    requestBannerUpdate
   } from "@/api/content/copywriter/banner"
+  let moment = require("moment")
   export default {
     name: 'BannerList',
     data() {
@@ -161,7 +185,7 @@
           activity_name: '',
           status: ''
         },
-        palceData: [],
+        placeData: [],
         labelPosition: 'left',
         editForm: {
           index: -1,
@@ -173,7 +197,45 @@
           activity_name: '',
           uptime: '',
           show_status: true,
-          review_status: true
+          in_review: 1,
+          share_title: '',
+          share_icon_url: '',
+          share_url: '',
+          share_desc: ''
+        },
+        editFormRules: {
+          place: {
+            required: true,
+            message: '请选择轮播图位置',
+            trigger: 'change'
+          },
+          title: [{
+              required: true,
+              message: '请输入标题',
+              trigger: 'blur'
+            },
+            {
+              min: 1,
+              max: 10,
+              message: '长度在 1 到 10 个字符',
+              trigger: 'blur'
+            }
+          ],
+          image_url: [{
+            required: true,
+            message: '请输入图片链接',
+            trigger: 'blur'
+          }, ],
+          jump_url: [{
+            required: true,
+            message: '请输入跳转链接',
+            trigger: 'blur'
+          }, ],
+          activity_name: [{
+            required: true,
+            message: '请输入活动名称',
+            trigger: 'blur'
+          }, ],
         }
       }
     },
@@ -204,6 +266,7 @@
             'message': '查询成功',
             'type': 'success'
           })
+
           this.pageTotal = res.data.length
           this.tableData = res.data
 
@@ -218,14 +281,20 @@
         this.currentPage = currentPage
       },
       //   获取列表数据 end
+      //   获取轮播图位置数据 start
+      getBannerPlaceData() {
+        requestBannerPlaceQuery().then((res) => {
+          this.placeData = res.data
+        })
+      },
+      // 获取轮播图位置数据 end
       //   列表时间格式化 start
       dateFormat: function (row, column) {
         var date = row[column.property]
         if (date == undefined) {
           return ""
         }
-        let moment = require("moment")
-        return moment(date).format("YYYY-MM-DD HH:mm:ss")
+        return moment(date).utcOffset(0).format("YYYY-MM-DD HH:mm:ss")
       },
       //     列表时间格式化 end
       //   列表获取当前选择的产品（服务）
@@ -233,7 +302,23 @@
         this.searchForm.status = selectVal
       },
 
-      //   新增轮播图
+      //   提交编辑
+      submitEdit(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            if (this.editForm.index === -1) {
+              this.addBanner()
+            } else {
+              this.updateBanner()
+            }
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+
+      //   新增轮播图 start
       handleAdd() {
         var start = new Date()
         this.editForm = {
@@ -246,14 +331,131 @@
           activity_name: '',
           uptime: start,
           show_status: true,
-          review_status: true
+          in_review: 1,
+          share_title: '',
+          share_icon_url: '',
+          share_url: '',
+          share_desc: ''
         }
 
         this.dialogFormVisible = true
       },
+      addBanner() {
+        let newData = {
+          place_id: this.editForm.place_id,
+          place: this.editForm.place,
+          title: this.editForm.title,
+          image_url: this.editForm.image_url,
+          jump_url: this.editForm.jump_url,
+          activity_name: this.editForm.activity_name,
+          uptime: moment(new Date(this.editForm.uptime)).utcOffset(8).format("YYYY-MM-DD HH:mm:ss"),
+          is_show: this.editForm.show_status ? 1 : 0,
+          in_review: this.editForm.in_review,
+          share_title: this.editForm.share_title,
+          share_icon_url: this.editForm.share_icon_url,
+          share_url: this.editForm.share_url,
+          share_desc: this.editForm.share_desc
+        }
+
+        console.log("newData:", newData)
+        requestBannerAdd(newData).then(res => {
+          if (0 == res.id) {
+            this.$message.error('添加失败')
+          } else {
+            newData.id = res.id
+            var tmpData = []
+
+            tmpData.push(newData)
+            this.tableData.forEach(item => {
+              tmpData.push(item)
+            })
+
+            this.tableData = tmpData
+            this.pageTotal = this.tableData.length
+            this.dialogFormVisible = false
+
+            this.$message({
+              message: '添加成功',
+              type: 'success'
+            })
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+
+      },
+      //   新增轮播图 end
+      // 修改轮播图 start
+      handleEdit(index, row) {
+        this.editForm = {
+          index: index + (this.currentPage - 1) * this.pageSize,
+          id: row.id,
+          place_id: row.place_id,
+          place: row.place,
+          title: row.title,
+          image_url: row.image_url,
+          jump_url: row.jump_url,
+          activity_name: row.activity_name,
+          uptime: moment(new Date(row.uptime)).utcOffset(0).format("YYYY-MM-DD HH:mm:ss"),
+          show_status: row.is_show == 1 ? true : false,
+          in_review: row.in_review,
+          share_title: row.share_title,
+          share_icon_url: row.share_icon_url,
+          share_url: row.share_url,
+          share_desc: row.share_desc
+        }
+        this.dialogFormVisible = true
+      },
+      updateBanner() {
+        let newData = {
+          id: this.editForm.id,
+          place_id: this.editForm.place_id,
+          place: this.editForm.place,
+          title: this.editForm.title,
+          image_url: this.editForm.image_url,
+          jump_url: this.editForm.jump_url,
+          activity_name: this.editForm.activity_name,
+          uptime: this.editForm.uptime,
+          //   uptime: moment(this.editForm.uptime).utcOffset(0).format('YYYY-MM-DD HH:mm:ss'),
+          is_show: this.editForm.show_status ? 1 : 0,
+          in_review: this.editForm.in_review,
+          share_title: this.editForm.share_title,
+          share_icon_url: this.editForm.share_icon_url,
+          share_url: this.editForm.share_url,
+          share_desc: this.editForm.share_desc
+        }
+
+        console.log("newData:", newData)
+        requestBannerUpdate(newData).then(data => {
+          console.log("index:", this.editForm.index)
+          this.tableData[this.editForm.index] = newData
+          this.dialogFormVisible = false
+
+          this.$message({
+            message: '修改成功',
+            type: 'success'
+          })
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      // 修改轮播图 end
+      // 编辑页面 轮播图位置选择 start
+      currentPalceSelect(selectVal) {
+        this.editForm.place_id = selectVal
+
+        this.placeData.forEach(item => {
+          if (item.id === this.editForm.place_id) {
+            this.editForm.place = item.place
+          }
+        })
+      },
+      // 编辑页面 轮播图位置选择 end
+
     },
     mounted() {
       this.getData()
+      this.getBannerPlaceData()
     }
   }
 
