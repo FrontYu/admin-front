@@ -18,3 +18,7 @@ export const requestBannerAdd = params => {
 export const requestBannerUpdate = params => {
   return request('PUT', '/api/content/copywriter/banner', params)
 }
+
+export const requestBannerDelete = params => {
+  return request('DELETE', '/api/content/copywriter/banner', params)
+}

@@ -29,7 +29,6 @@
           </el-select>
         </el-form-item>
 
-
         <el-form-item>
           <el-button type="primary" @click="onSubmit('searchForm')">查询</el-button>
         </el-form-item>
@@ -41,6 +40,47 @@
       <!-- 列表 -->
       <el-table stripe :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)" v-loading="listLoading"
         border style="width: 100%">
+        <el-table-column type="expand" style="width: 100%">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="位置">
+                <span>{{ props.row.place }}</span>
+              </el-form-item>
+              <el-form-item label="标题">
+                <span>{{ props.row.title }}</span>
+              </el-form-item>
+              <el-form-item label="图片">
+                <img :src="props.row.image_url" style="max-height: 100px;max-width: 300px">
+              </el-form-item>
+              <el-form-item label="跳转地址">
+                <span>{{ props.row.jump_url }}</span>
+              </el-form-item>
+              <el-form-item label="活动名称">
+                <span>{{ props.row.activity_name }}</span>
+              </el-form-item>
+              <el-form-item label="状态">
+                <el-tag v-if="props.row.is_show == 1">显示</el-tag>
+                <el-tag type="danger" v-else>隐藏</el-tag>
+                <el-tag type="danger" v-if="props.row.in_review == 1">审核</el-tag>
+              </el-form-item>
+              <el-form-item label="上线时间">
+                <span>{{ props.row.uptime }}</span>
+              </el-form-item>
+              <el-form-item label="分享标题">
+                <span>{{ props.row.share_title }}</span>
+              </el-form-item>
+              <el-form-item label="分享图片链接">
+                <span>{{ props.row.share_icon_url }}</span>
+              </el-form-item>
+              <el-form-item label="分享跳转地址">
+                <span>{{ props.row.share_url }}</span>
+              </el-form-item>
+              <el-form-item label="分享描述">
+                <span>{{ props.row.share_desc }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
         <el-table-column label="位置" align="center">
           <template slot-scope="scope">
             <span style="margin-left:10px;">{{ scope.row.place}}</span>
@@ -54,8 +94,8 @@
 
         <el-table-column label="图片" align="center" height="10px">
           <template slot-scope="scope">
-            <el-popover placement="right" title="" trigger="hover">
-              <img :src="scope.row.image_url" style="max-height: 200px;max-width: 600px" />
+            <el-popover placement="right" title trigger="hover">
+              <img :src="scope.row.image_url" style="max-height: 200px;max-width: 600px">
               <img slot="reference" :src="scope.row.image_url" :alt="scope.row.image_url" style="max-height: 50px;max-width: 130px">
             </el-popover>
           </template>
@@ -73,7 +113,12 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="uptime" label="上线时间" sortable :formatter="dateFormat" align="center"></el-table-column>
+        <el-table-column label="上线时间" align="center" width="180">
+          <template slot-scope="scope">
+            <i class="el-icon-time"></i>
+            <span style="margin-left:10px;">{{ scope.row.uptime}}</span>
+          </template>
+        </el-table-column>
 
         <el-table-column label="状态" align="center">
           <template slot-scope="scope">
@@ -122,8 +167,7 @@
           </el-form-item>
 
           <el-form-item label="上线时间" label-width="120px">
-            <el-date-picker v-model="editForm.uptime" type="datetime" placeholder="选择日期时间" align="right">
-            </el-date-picker>
+            <el-date-picker v-model="editForm.uptime" type="datetime" placeholder="选择日期时间" align="right"></el-date-picker>
           </el-form-item>
 
           <el-form-item label="状态" label-width="120px">
@@ -150,14 +194,12 @@
           <el-form-item label="分享描述" label-width="120px">
             <el-input v-model="editForm.share_desc" placeholder="分享描述" style="width:220px"></el-input>
           </el-form-item>
-
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
           <el-button type="primary" @click="submitEdit('editForm')">确 定</el-button>
         </div>
       </el-dialog>
-
     </el-card>
   </div>
 </template>
@@ -167,7 +209,8 @@
     requestBannerQuery,
     requestBannerPlaceQuery,
     requestBannerAdd,
-    requestBannerUpdate
+    requestBannerUpdate,
+    requestBannerDelete
   } from "@/api/content/copywriter/banner"
   let moment = require("moment")
   export default {
@@ -225,12 +268,22 @@
             required: true,
             message: '请输入图片链接',
             trigger: 'blur'
-          }, ],
+          }, {
+            min: 1,
+            max: 255,
+            message: '长度在 1 到 255 个字符',
+            trigger: 'blur'
+          }],
           jump_url: [{
             required: true,
             message: '请输入跳转链接',
             trigger: 'blur'
-          }, ],
+          }, {
+            min: 1,
+            max: 255,
+            message: '长度在 1 到 255 个字符',
+            trigger: 'blur'
+          }],
           activity_name: [{
             required: true,
             message: '请输入活动名称',
@@ -269,7 +322,6 @@
 
           this.pageTotal = res.data.length
           this.tableData = res.data
-
           this.listLoading = false
         })
 
@@ -302,14 +354,30 @@
         this.searchForm.status = selectVal
       },
 
-      //   提交编辑
+      //   提交编辑 start
       submitEdit(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            let newData = {
+              place_id: this.editForm.place_id,
+              place: this.editForm.place,
+              title: this.editForm.title,
+              image_url: this.editForm.image_url,
+              jump_url: this.editForm.jump_url,
+              activity_name: this.editForm.activity_name,
+              uptime: moment(this.editForm.uptime).utcOffset(8).format('YYYY-MM-DD HH:mm:ss'),
+              is_show: this.editForm.show_status ? 1 : 0,
+              in_review: this.editForm.in_review,
+              share_title: this.editForm.share_title,
+              share_icon_url: this.editForm.share_icon_url,
+              share_url: this.editForm.share_url,
+              share_desc: this.editForm.share_desc
+            }
             if (this.editForm.index === -1) {
-              this.addBanner()
+              this.addBanner(newData)
             } else {
-              this.updateBanner()
+              newData.id = this.editForm.id
+              this.updateBanner(newData)
             }
           } else {
             console.log('error submit!!');
@@ -317,7 +385,7 @@
           }
         });
       },
-
+      //   提交编辑 end
       //   新增轮播图 start
       handleAdd() {
         var start = new Date()
@@ -340,24 +408,7 @@
 
         this.dialogFormVisible = true
       },
-      addBanner() {
-        let newData = {
-          place_id: this.editForm.place_id,
-          place: this.editForm.place,
-          title: this.editForm.title,
-          image_url: this.editForm.image_url,
-          jump_url: this.editForm.jump_url,
-          activity_name: this.editForm.activity_name,
-          uptime: moment(new Date(this.editForm.uptime)).utcOffset(8).format("YYYY-MM-DD HH:mm:ss"),
-          is_show: this.editForm.show_status ? 1 : 0,
-          in_review: this.editForm.in_review,
-          share_title: this.editForm.share_title,
-          share_icon_url: this.editForm.share_icon_url,
-          share_url: this.editForm.share_url,
-          share_desc: this.editForm.share_desc
-        }
-
-        console.log("newData:", newData)
+      addBanner(newData) {
         requestBannerAdd(newData).then(res => {
           if (0 == res.id) {
             this.$message.error('添加失败')
@@ -380,6 +431,7 @@
             })
           }
         }).catch(err => {
+          this.$message.error('添加异常')
           console.log(err)
         })
 
@@ -396,7 +448,7 @@
           image_url: row.image_url,
           jump_url: row.jump_url,
           activity_name: row.activity_name,
-          uptime: moment(new Date(row.uptime)).utcOffset(0).format("YYYY-MM-DD HH:mm:ss"),
+          uptime: new Date(row.uptime),
           show_status: row.is_show == 1 ? true : false,
           in_review: row.in_review,
           share_title: row.share_title,
@@ -406,28 +458,8 @@
         }
         this.dialogFormVisible = true
       },
-      updateBanner() {
-        let newData = {
-          id: this.editForm.id,
-          place_id: this.editForm.place_id,
-          place: this.editForm.place,
-          title: this.editForm.title,
-          image_url: this.editForm.image_url,
-          jump_url: this.editForm.jump_url,
-          activity_name: this.editForm.activity_name,
-          uptime: this.editForm.uptime,
-          //   uptime: moment(this.editForm.uptime).utcOffset(0).format('YYYY-MM-DD HH:mm:ss'),
-          is_show: this.editForm.show_status ? 1 : 0,
-          in_review: this.editForm.in_review,
-          share_title: this.editForm.share_title,
-          share_icon_url: this.editForm.share_icon_url,
-          share_url: this.editForm.share_url,
-          share_desc: this.editForm.share_desc
-        }
-
-        console.log("newData:", newData)
+      updateBanner(newData) {
         requestBannerUpdate(newData).then(data => {
-          console.log("index:", this.editForm.index)
           this.tableData[this.editForm.index] = newData
           this.dialogFormVisible = false
 
@@ -436,6 +468,7 @@
             type: 'success'
           })
         }).catch(err => {
+          this.$message.error('修改异常')
           console.log(err)
         })
       },
@@ -451,6 +484,32 @@
         })
       },
       // 编辑页面 轮播图位置选择 end
+      //   删除轮播图 start
+      handleDelete(index, row) {
+        this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let delData = {
+            id: row.id
+          }
+          requestBannerDelete(delData).then(data => {
+            this.tableData.splice(index + (this.currentPage - 1) * this.pageSize, 1)
+            this.pageTotal = this.tableData.length
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
+      //   删除轮播图 end
 
     },
     mounted() {
@@ -460,3 +519,21 @@
   }
 
 </script>
+<style>
+  .demo-table-expand {
+    margin-left: 10px;
+    font-size: 0;
+  }
+
+  .demo-table-expand label {
+    width: 150px;
+    color: #99a9bf;
+  }
+
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 80%;
+  }
+
+</style>

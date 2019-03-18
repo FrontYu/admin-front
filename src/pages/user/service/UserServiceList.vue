@@ -230,17 +230,7 @@
 
         this.dialogFormVisible = true
       },
-      addService() {
-        let newData = {
-          id: 0,
-          userid: this.form.userid,
-          product_class: this.form.product_class,
-          product_name: this.form.product_name,
-          start_date: moment(this.form.date_range[0]).format("YYYY-MM-DD HH:mm:ss"),
-          end_date: moment(this.form.date_range[1]).format("YYYY-MM-DD HH:mm:ss"),
-          enable: this.form.status ? 1 : 0
-        }
-        console.log("add serivce:", newData)
+      addService(newData) {
         requestUserServiceAdd(newData).then(res => {
           if (0 === res.id) {
             this.$message.error('添加失败')
@@ -281,28 +271,10 @@
           status: row.enable === 1 ? true : false,
           date_range: [new Date(this.form.start_date), new Date(this.form.end_date)]
         }
-        // this.form.index = index + (this.currentPage - 1) * this.pageSize
-        // this.form.id = row.id
-        // this.form.userid = row.userid
-        // this.form.product_class = row.product_class
-        // this.form.product_name = row.product_name
-        // this.form.start_date = row.start_date
-        // this.form.end_date = row.end_date
-        // this.form.status = row.enable === 1 ? true : false
-        // this.form.date_range = [new Date(this.form.start_date), new Date(this.form.end_date)]
 
         this.dialogFormVisible = true
       },
-      modifyService() {
-        let newData = {
-          id: this.form.id,
-          product_class: this.form.product_class,
-          product_name: this.form.product_name,
-          start_date: moment(this.form.date_range[0]).format("YYYY-MM-DD HH:mm:ss"),
-          end_date: moment(this.form.date_range[1]).format("YYYY-MM-DD HH:mm:ss"),
-          enable: this.form.status ? 1 : 0
-        }
-
+      modifyService(newData) {
         requestUserServiceUpdate(newData).then(data => {
           this.$message({
             message: '修改成功',
@@ -319,6 +291,7 @@
 
       },
       // 修改服务 end
+      //   删除服务 start
       handleDelete(index, row) {
         this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
           confirmButtonText: '确定',
@@ -342,17 +315,24 @@
             message: '已取消删除'
           });
         });
-
-
-
-
       },
+      //   删除服务 end
       //   提交编辑
       submitEdit() {
+        let newData = {
+          id: 0,
+          userid: this.form.userid,
+          product_class: this.form.product_class,
+          product_name: this.form.product_name,
+          start_date: moment(this.form.date_range[0]).format("YYYY-MM-DD HH:mm:ss"),
+          end_date: moment(this.form.date_range[1]).format("YYYY-MM-DD HH:mm:ss"),
+          enable: this.form.status ? 1 : 0
+        }
         if (this.form.index === -1) {
-          this.addService()
+          this.addService(newData)
         } else {
-          this.modifyService()
+          newData.id = this.form.id
+          this.modifyService(newData)
         }
       },
       //  弹窗获取当前选择的产品（服务）
