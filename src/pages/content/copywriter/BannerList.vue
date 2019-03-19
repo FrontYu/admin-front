@@ -145,7 +145,7 @@
         <el-form :label-position="labelPosition" :model="editForm" :rules="editFormRules" ref="editForm" align="left"
           style="margin-left:20%;">
           <el-form-item label="位置" label-width="120px" prop="place">
-            <el-select v-model="editForm.place" filterable placeholder="请选择" @change="currentPalceSelect">
+            <el-select v-model="editForm.place" filterable placeholder="请选择" @change="currentPlaceSelect">
               <el-option v-for="item in placeData" :key="item.id" :label="item.place" :value="item.id"></el-option>
             </el-select>
           </el-form-item>
@@ -474,7 +474,7 @@
       },
       // 修改轮播图 end
       // 编辑页面 轮播图位置选择 start
-      currentPalceSelect(selectVal) {
+      currentPlaceSelect(selectVal) {
         this.editForm.place_id = selectVal
 
         this.placeData.forEach(item => {
