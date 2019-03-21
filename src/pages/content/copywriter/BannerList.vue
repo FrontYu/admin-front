@@ -14,11 +14,14 @@
           <el-button type="danger" @click="handleAdd()">新增</el-button>
         </el-form-item>
 
-        <el-form-item label="标题" prop="title">
-          <el-input v-model="searchForm.title" placeholder="标题"></el-input>
+        <el-form-item label="位置" prop="place">
+          <el-select v-model="searchForm.place" filterable placeholder="请选择" @change="searchPlaceSelect">
+            <el-option v-for="item in placeData" :key="item.id" :label="item.place" :value="item.id"></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="活动名称" prop="activity_name">
-          <el-input v-model="searchForm.activity_name" placeholder="活动名称"></el-input>
+
+        <el-form-item label="关键字" prop="keyword">
+          <el-input v-model="searchForm.keyword" placeholder="关键字"></el-input>
         </el-form-item>
 
         <el-form-item label="状态" prop="status">
@@ -96,7 +99,8 @@
           <template slot-scope="scope">
             <el-popover placement="right" title trigger="hover">
               <img :src="scope.row.image_url" style="max-height: 200px;max-width: 600px">
-              <img slot="reference" :src="scope.row.image_url" :alt="scope.row.image_url" style="max-height: 50px;max-width: 130px">
+              <img slot="reference" :src="scope.row.image_url" :alt="scope.row.image_url"
+                style="max-height: 50px;max-width: 130px">
             </el-popover>
           </template>
         </el-table-column>
@@ -136,8 +140,9 @@
         </el-table-column>
       </el-table>
       <!-- 分页 -->
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" background :current-page="currentPage"
-        :page-sizes="[10, 20, 30, 40]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageTotal"></el-pagination>
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" background
+        :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper" :total="pageTotal"></el-pagination>
 
       <!-- 编辑界面 -->
       <!-- 弹窗 -->
@@ -167,7 +172,8 @@
           </el-form-item>
 
           <el-form-item label="上线时间" label-width="120px">
-            <el-date-picker v-model="editForm.uptime" type="datetime" placeholder="选择日期时间" align="right"></el-date-picker>
+            <el-date-picker v-model="editForm.uptime" type="datetime" placeholder="选择日期时间" align="right">
+            </el-date-picker>
           </el-form-item>
 
           <el-form-item label="状态" label-width="120px">
@@ -224,9 +230,10 @@
         listLoading: false,
         dialogFormVisible: false,
         searchForm: {
-          title: '',
-          activity_name: '',
-          status: ''
+          status: '',
+          keywords: '',
+          place_id: 0,
+          column_id: 0,
         },
         placeData: [],
         labelPosition: 'left',
@@ -305,9 +312,10 @@
       },
       resetSubmit() {
         this.searchForm = {
-          title: '',
-          activity_name: '',
           status: '',
+          keywords: '',
+          place_id: 0,
+          column_id: 0,
         }
         this.getData()
       },
@@ -340,19 +348,14 @@
         })
       },
       // 获取轮播图位置数据 end
-      //   列表时间格式化 start
-      dateFormat: function (row, column) {
-        var date = row[column.property]
-        if (date == undefined) {
-          return ""
-        }
-        return moment(date).utcOffset(0).format("YYYY-MM-DD HH:mm:ss")
+      //   列表获取当前选择 start 
+      searchPlaceSelect(selectVal) {
+        this.searchForm.place_id = selectVal
       },
-      //     列表时间格式化 end
-      //   列表获取当前选择的产品（服务）
       searchSelect(selectVal) {
         this.searchForm.status = selectVal
       },
+      //   列表获取当前选择 end 
 
       //   提交编辑 start
       submitEdit(formName) {

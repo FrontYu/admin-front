@@ -8,13 +8,86 @@
     </el-breadcrumb>
 
     <el-card style="margin-top: 20px;">
+      <!-- 搜索 -->
+      <el-form :inline="true" :model="searchForm" ref="searchForm">
+        <el-form-item>
+          <el-button type="danger" @click="handleAdd()">新增</el-button>
+        </el-form-item>
+        <el-form-item label="栏目" prop="column_name">
+          <el-select v-model="searchForm.column_name" filterable placeholder="请选择" @change="searchColumnSelect">
+            <el-option v-for="item in columnData" :key="item.id" :label="item.column_name" :value="item.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="关键字" prop="keyword">
+          <el-input v-model="searchForm.keyword" placeholder="关键字"></el-input>
+        </el-form-item>
+
+
+        <el-form-item label="状态" prop="status">
+          <el-select v-model="searchForm.status" placeholder="请选择">
+            <el-option label="显示" value="1"></el-option>
+            <el-option label="隐藏" value="2"></el-option>
+            <el-option label="审核" value="3"></el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit('searchForm')">查询</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="resetSubmit()">重置</el-button>
+        </el-form-item>
+      </el-form>
 
       <!-- 列表 -->
       <el-table :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)" v-loading="listLoading" border
         style="width: 100%">
-        <el-table-column label="位置" align="center">
+
+        <el-table-column type="expand" style="width: 100%">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="栏目">
+                <span>{{ props.row.column_name }}</span>
+              </el-form-item>
+              <el-form-item label="标题">
+                <span>{{ props.row.title }}</span>
+              </el-form-item>
+              <el-form-item label="图片">
+                <img :src="props.row.image_url" style="max-height: 100px;max-width: 300px">
+              </el-form-item>
+              <el-form-item label="跳转地址">
+                <span>{{ props.row.jump_url }}</span>
+              </el-form-item>
+              <el-form-item label="活动名称">
+                <span>{{ props.row.activity_name }}</span>
+              </el-form-item>
+              <el-form-item label="状态">
+                <el-tag v-if="props.row.is_show == 1">显示</el-tag>
+                <el-tag type="danger" v-else>隐藏</el-tag>
+                <el-tag type="danger" v-if="props.row.in_review == 1">审核</el-tag>
+              </el-form-item>
+              <el-form-item label="上线时间">
+                <span>{{ props.row.uptime }}</span>
+              </el-form-item>
+              <el-form-item label="分享标题">
+                <span>{{ props.row.share_title }}</span>
+              </el-form-item>
+              <el-form-item label="分享图片链接">
+                <span>{{ props.row.share_icon_url }}</span>
+              </el-form-item>
+              <el-form-item label="分享跳转地址">
+                <span>{{ props.row.share_url }}</span>
+              </el-form-item>
+              <el-form-item label="分享描述">
+                <span>{{ props.row.share_desc }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="栏目" align="center">
           <template slot-scope="scope">
-            <span style="margin-left:10px;">{{ scope.row.place}}</span>
+            <span style="margin-left:10px;">{{ scope.row.column_name}}</span>
           </template>
         </el-table-column>
         <el-table-column label="标题" align="center">
@@ -27,7 +100,8 @@
           <template slot-scope="scope">
             <el-popover placement="right" title="" trigger="hover">
               <img :src="scope.row.image_url" style="max-height: 200px;max-width: 600px" />
-              <img slot="reference" :src="scope.row.image_url" :alt="scope.row.image_url" style="max-height: 50px;max-width: 130px">
+              <img slot="reference" :src="scope.row.image_url" :alt="scope.row.image_url"
+                style="max-height: 50px;max-width: 130px">
             </el-popover>
           </template>
         </el-table-column>
@@ -44,7 +118,13 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="uptime" label="上线时间" :formatter="dateFormat" align="center"></el-table-column>
+
+        <el-table-column label="上线时间" align="center" width="180">
+          <template slot-scope="scope">
+            <i class="el-icon-time"></i>
+            <span style="margin-left:10px;">{{ scope.row.uptime}}</span>
+          </template>
+        </el-table-column>
 
         <el-table-column label="状态" align="center">
           <template slot-scope="scope">
@@ -54,35 +134,175 @@
           </template>
         </el-table-column>
 
-        <!-- <el-table-column label="操作" align="center">
+        <el-table-column label="操作" align="center">
           <template slot-scope="scope">
+            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
-        </el-table-column> -->
+        </el-table-column>
       </el-table>
       <!-- 分页 -->
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" background :current-page="currentPage"
-        :page-sizes="[10, 20, 30, 40]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageTotal"></el-pagination>
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" background
+        :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper" :total="pageTotal"></el-pagination>
+
+      <!-- 编辑界面 -->
+      <!-- 弹窗 -->
+      <el-dialog title="首页广告栏目" :visible.sync="dialogFormVisible">
+        <el-form :label-position="labelPosition" :model="editForm" :rules="editFormRules" ref="editForm" align="left"
+          style="margin-left:20%;">
+          <el-form-item label="栏目" label-width="120px" prop="column_name">
+            <el-select v-model="editForm.column_name" filterable placeholder="请选择" @change="currentColumnSelect">
+              <el-option v-for="item in columnData" :key="item.id" :label="item.column_name" :value="item.id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="标题" label-width="120px" prop="title">
+            <el-input v-model="editForm.title" placeholder="请输入标题" style="width:220px"></el-input>
+          </el-form-item>
+
+          <el-form-item label="图片链接" label-width="120px" prop="image_url">
+            <el-input v-model="editForm.image_url" placeholder="请输入图片链接" style="width:220px"></el-input>
+          </el-form-item>
+
+          <el-form-item label="跳转地址" label-width="120px" prop="jump_url">
+            <el-input v-model="editForm.jump_url" placeholder="请输入跳转地址链接" style="width:220px"></el-input>
+          </el-form-item>
+
+          <el-form-item label="活动名称" label-width="120px" prop="activity_name">
+            <el-input v-model="editForm.activity_name" placeholder="请输入活动名称" style="width:220px"></el-input>
+          </el-form-item>
+
+          <el-form-item label="上线时间" label-width="120px">
+            <el-date-picker v-model="editForm.uptime" type="datetime" placeholder="选择日期时间" align="right">
+            </el-date-picker>
+          </el-form-item>
+
+          <el-form-item label="状态" label-width="120px">
+            <el-switch v-model="editForm.show_status" active-color="#13ce66" inactive-color="#ff4949" active-text="显示"
+              inactive-text="隐藏"></el-switch>
+          </el-form-item>
+
+          <el-form-item label="审核状态" label-width="120px" prop="in_review">
+            <el-radio-group v-model="editForm.in_review">
+              <el-radio :label="1">审核中</el-radio>
+              <el-radio :label="0">非审核</el-radio>
+            </el-radio-group>
+          </el-form-item>
+
+          <el-form-item label="分享标题" label-width="120px">
+            <el-input v-model="editForm.share_title" placeholder="分享标题" style="width:220px"></el-input>
+          </el-form-item>
+          <el-form-item label="分享图片链接" label-width="120px">
+            <el-input v-model="editForm.share_icon_url" placeholder="分享图片链接" style="width:220px"></el-input>
+          </el-form-item>
+          <el-form-item label="分享跳转地址" label-width="120px">
+            <el-input v-model="editForm.share_url" placeholder="分享跳转地址" style="width:220px"></el-input>
+          </el-form-item>
+          <el-form-item label="分享描述" label-width="120px">
+            <el-input v-model="editForm.share_desc" placeholder="分享描述" style="width:220px"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="submitEdit('editForm')">确 定</el-button>
+        </div>
+      </el-dialog>
     </el-card>
   </div>
 </template>
 
 <script>
   import {
-    requestAdColumnQuery
+    requestAdColumnQuery,
+    requestAdColumnAdd,
+    requestAdColumnUpdate,
+    requestAdColumnDelete,
   } from "@/api/content/homepage/adcolumn"
+  import {
+    requestColumnQuery
+  } from '@/api/content/homepage/column'
+  let moment = require("moment")
   export default {
     name: 'AdColumnList',
     data() {
       return {
         tableData: [],
+        columnData: [],
         currentPage: 1,
         pageSize: 10,
         pageTotal: 0,
         listLoading: false,
+        dialogFormVisible: false,
+        labelPosition: 'left',
         searchForm: {
-
+          status: '',
+          keywords: '',
+          place_id: 0,
+          column_id: 0,
         },
+        editForm: {
+          index: -1,
+          id: 0,
+          column_id: 0,
+          column_name: '',
+          title: '',
+          image_url: '',
+          jump_url: '',
+          activity_name: '',
+          uptime: '',
+          show_status: true,
+          in_review: 1,
+          share_title: '',
+          share_icon_url: '',
+          share_url: '',
+          share_desc: ''
+        },
+        editFormRules: {
+          column_name: {
+            required: true,
+            message: '请选择栏目',
+            trigger: 'change'
+          },
+          title: [{
+              required: true,
+              message: '请输入标题',
+              trigger: 'blur'
+            },
+            {
+              min: 1,
+              max: 10,
+              message: '长度在 1 到 10 个字符',
+              trigger: 'blur'
+            }
+          ],
+          image_url: [{
+            required: true,
+            message: '请输入图片链接',
+            trigger: 'blur'
+          }, {
+            min: 1,
+            max: 255,
+            message: '长度在 1 到 255 个字符',
+            trigger: 'blur'
+          }],
+          jump_url: [{
+            required: true,
+            message: '请输入跳转链接',
+            trigger: 'blur'
+          }, {
+            min: 1,
+            max: 255,
+            message: '长度在 1 到 255 个字符',
+            trigger: 'blur'
+          }],
+          activity_name: [{
+            required: true,
+            message: '请输入活动名称',
+            trigger: 'blur'
+          }, ],
+        }
       }
     },
     methods: {
@@ -95,6 +315,15 @@
             return false
           }
         })
+      },
+      resetSubmit() {
+        this.searchForm = {
+          status: '',
+          keywords: '',
+          place_id: 0,
+          column_id: 0,
+        }
+        this.getData()
       },
       //   获取列表数据 start
       getData() {
@@ -118,20 +347,218 @@
         this.currentPage = currentPage
       },
       //   获取列表数据 end
-      //   列表时间格式化 start
-      dateFormat: function (row, column) {
-        var date = row[column.property]
-        if (date == undefined) {
-          return ""
+      //   获取栏目数据 start
+      getColumnData() {
+        let form = {
+          column_type_id: 8,
+          status: 1
         }
-        let moment = require("moment")
-        return moment(date).format("YYYY-MM-DD HH:mm:ss")
+        requestColumnQuery(form).then((res) => {
+          this.columnData = res.data
+
+        })
       },
-      //     列表时间格式化 end
+      // 获取栏目数据 end
+
+      //   列表获取当前选择 start 
+      searchColumnSelect(selectVal) {
+        this.searchForm.column_id = selectVal
+      },
+      searchSelect(selectVal) {
+        this.searchForm.status = selectVal
+      },
+      //   列表获取当前选择 end 
+
+      // 编辑页面 栏目选择 start
+      currentColumnSelect(selectVal) {
+        this.editForm.column_id = selectVal
+
+        this.columnData.forEach(item => {
+          if (item.id === this.editForm.column_id) {
+            this.editForm.column_name = item.column_name
+          }
+        })
+      },
+      // 编辑页面 栏目选择 end
+
+
+      //   提交编辑 start
+      submitEdit(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            let newData = {
+              place_id: 6,
+              column_id: this.editForm.column_id,
+              column_name: this.editForm.column_name,
+              title: this.editForm.title,
+              image_url: this.editForm.image_url,
+              jump_url: this.editForm.jump_url,
+              activity_name: this.editForm.activity_name,
+              uptime: moment(this.editForm.uptime).utcOffset(8).format('YYYY-MM-DD HH:mm:ss'),
+              is_show: this.editForm.show_status ? 1 : 0,
+              in_review: this.editForm.in_review,
+              share_title: this.editForm.share_title,
+              share_icon_url: this.editForm.share_icon_url,
+              share_url: this.editForm.share_url,
+              share_desc: this.editForm.share_desc
+            }
+            if (this.editForm.index === -1) {
+              this.addAdColumn(newData)
+            } else {
+              newData.id = this.editForm.id
+              this.updateAdColumn(newData)
+            }
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      //   提交编辑 end
+
+      //   新增广告栏目start
+      handleAdd() {
+        var start = new Date()
+        this.editForm = {
+          index: -1,
+          id: 0,
+          column_id: 0,
+          column_name: '',
+          title: '',
+          image_url: '',
+          jump_url: '',
+          activity_name: '',
+          uptime: start,
+          show_status: true,
+          in_review: 1,
+          share_title: '',
+          share_icon_url: '',
+          share_url: '',
+          share_desc: ''
+        }
+
+        this.dialogFormVisible = true
+      },
+      addAdColumn(newData) {
+        requestAdColumnAdd(newData).then(res => {
+          if (0 == res.id) {
+            this.$message.error('添加失败')
+          } else {
+            newData.id = res.id
+            var tmpData = []
+
+            tmpData.push(newData)
+            this.tableData.forEach(item => {
+              tmpData.push(item)
+            })
+
+            this.tableData = tmpData
+            this.pageTotal = this.tableData.length
+            this.dialogFormVisible = false
+
+            this.$message({
+              message: '添加成功',
+              type: 'success'
+            })
+          }
+        }).catch(err => {
+          this.$message.error('添加异常')
+          console.log(err)
+        })
+
+      },
+      //   新增广告栏目 end
+
+      // 修改广告栏目 start
+      handleEdit(index, row) {
+        this.editForm = {
+          index: index + (this.currentPage - 1) * this.pageSize,
+          id: row.id,
+          column_id: parseInt(row.column_id),
+          column_name: row.column_name,
+          title: row.title,
+          image_url: row.image_url,
+          jump_url: row.jump_url,
+          activity_name: row.activity_name,
+          uptime: new Date(row.uptime),
+          show_status: row.is_show == 1 ? true : false,
+          in_review: row.in_review,
+          share_title: row.share_title,
+          share_icon_url: row.share_icon_url,
+          share_url: row.share_url,
+          share_desc: row.share_desc
+        }
+        this.dialogFormVisible = true
+      },
+      updateAdColumn(newData) {
+        requestAdColumnUpdate(newData).then(data => {
+          this.tableData[this.editForm.index] = newData
+          this.dialogFormVisible = false
+
+          this.$message({
+            message: '修改成功',
+            type: 'success'
+          })
+        }).catch(err => {
+          this.$message.error('修改异常')
+          console.log(err)
+        })
+      },
+      // 修改广告栏目 end
+
+      //   删除广告栏目 start
+      handleDelete(index, row) {
+        this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let delData = {
+            id: row.id
+          }
+          requestAdColumnDelete(delData).then(data => {
+            this.tableData.splice(index + (this.currentPage - 1) * this.pageSize, 1)
+            this.pageTotal = this.tableData.length
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
+      //   删除广告栏目 end
+
+
+
     },
     mounted() {
       this.getData()
+      this.getColumnData()
     }
   }
 
 </script>
+
+<style>
+  .demo-table-expand {
+    margin-left: 10px;
+    font-size: 0;
+  }
+
+  .demo-table-expand label {
+    width: 150px;
+    color: #99a9bf;
+  }
+
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 80%;
+  }
+
+</style>
