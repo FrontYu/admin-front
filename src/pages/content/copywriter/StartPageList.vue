@@ -86,7 +86,8 @@
           <template slot-scope="scope">
             <el-popover placement="right" title="" trigger="hover">
               <img :src="scope.row.image_url" style="max-height:600px;max-width: 200px" />
-              <img slot="reference" :src="scope.row.image_url" :alt="scope.row.image_url" style="max-height:150px;max-width: 50px">
+              <img slot="reference" :src="scope.row.image_url" :alt="scope.row.image_url"
+                style="max-height:150px;max-width: 50px">
             </el-popover>
           </template>
         </el-table-column>
@@ -126,8 +127,9 @@
         </el-table-column>
       </el-table>
       <!-- 分页 -->
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" background :current-page="currentPage"
-        :page-sizes="[10, 20, 30, 40]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageTotal"></el-pagination>
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" background
+        :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper" :total="pageTotal"></el-pagination>
 
       <!-- 编辑界面 -->
       <!-- 弹窗 -->
@@ -148,8 +150,8 @@
           </el-form-item>
 
           <el-form-item label="显示时间" label-width="120px">
-            <el-date-picker v-model="editForm.date_range" type="datetimerange" range-separator="至" start-placeholder="开始时间"
-              end-placeholder="结束时间" align="right"></el-date-picker>
+            <el-date-picker v-model="editForm.date_range" type="datetimerange" range-separator="至"
+              start-placeholder="开始时间" end-placeholder="结束时间" align="right"></el-date-picker>
           </el-form-item>
 
           <el-form-item label="状态" label-width="120px">
@@ -326,7 +328,6 @@
       //   提交编辑 end
       //   新增启动页 start
       handleAdd() {
-        var start = new Date()
         var end = new Date()
         end.setTime(end.getTime() + 3600 * 1000 * 24 * 7)
         var start = new Date()

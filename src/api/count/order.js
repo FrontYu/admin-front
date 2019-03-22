@@ -1,9 +1,9 @@
 import {
-  request
+  getRequest
 } from "../../utils/request";
 
 export const requestCountOrderQuery = params => {
-  return request('GET', '/api/count/order', params).then((data) => {
+  return getRequest('GET', '/api/count/order', params).then((data) => {
     return data
   })
 }

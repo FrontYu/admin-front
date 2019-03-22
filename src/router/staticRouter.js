@@ -16,7 +16,7 @@ import SysUserList from '@/pages/sys/user/SysUserList'
 import SysReviewList from '@/pages/sys/review/SysReviewList'
 
 import CountOrderList from '@/pages/count/order/CountOrderList'
-import CountRegistList from '@/pages/count/regist/CountRegistList'
+import CountUserRegistList from '@/pages/count/regist/CountUserRegistList'
 
 import UserManageList from '@/pages/user/manage/UserManageList'
 import UserServiceList from '@/pages/user/service/UserServiceList'
@@ -215,7 +215,7 @@ const staticRouter = [{
     {
       path: '/count/regist/list',
       name: 'menu.countRegist',
-      component: CountRegistList
+      component: CountUserRegistList
     }
   ]
 }, {
