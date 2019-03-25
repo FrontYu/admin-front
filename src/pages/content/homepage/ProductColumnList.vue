@@ -408,9 +408,9 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let newData = {
-              column_type_id: this.editForm.column_type_id,
+              column_type_id: parseInt(this.editForm.column_type_id),
               column_type_name: this.editForm.column_type_name,
-              column_id: this.editForm.column_id,
+              column_id: parseInt(this.editForm.column_id),
               column_name: this.editForm.column_name,
               image_url: this.editForm.image_url,
               jump_url: this.editForm.jump_url,
@@ -500,7 +500,7 @@
         this.editForm = {
           index: index + (this.currentPage - 1) * this.pageSize,
           id: row.id,
-          column_type_id: row.column_type_id,
+          column_type_id: parseInt(row.column_type_id),
           column_type_name: row.column_type_name,
           column_id: parseInt(row.column_id),
           column_name: row.column_name,

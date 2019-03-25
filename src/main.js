@@ -15,6 +15,8 @@ import myZhLocale from './assets/lang/zh-cn'
 import enLocale from 'element-ui/lib/locale/lang/en'
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 
+// import './assets/css/font.css'
+
 Vue.config.productionTip = false
 Mock.mockData()
 
