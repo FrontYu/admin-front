@@ -440,7 +440,7 @@
       },
       //   提交编辑 end
 
-      //   新增产品推荐栏目 start
+      //   新增 start
       handleAdd() {
         var start = new Date()
         this.editForm = {
@@ -493,9 +493,9 @@
         })
 
       },
-      //   新增产品推荐栏目 end
+      //   新增 end
 
-      // 修改产品推荐栏目 start
+      // 修改 start
       handleEdit(index, row) {
         this.editForm = {
           index: index + (this.currentPage - 1) * this.pageSize,
@@ -534,8 +534,8 @@
           console.log(err)
         })
       },
-      // 修改产品推荐栏目 end
-      //   删除产品推荐栏目 start
+      // 修改 end
+      //   删除 start
       handleDelete(index, row) {
         this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
           confirmButtonText: '确定',
@@ -560,7 +560,7 @@
           });
         });
       },
-      //   删除产品推荐栏目 end
+      //   删除 end
     },
     mounted() {
       this.getData()
