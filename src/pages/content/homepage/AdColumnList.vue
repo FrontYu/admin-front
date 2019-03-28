@@ -106,12 +106,6 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="跳转地址" align="center">
-          <template slot-scope="scope">
-            <span style="margin-left:10px;">{{ scope.row.jump_url}}</span>
-          </template>
-        </el-table-column>
-
         <el-table-column label="活动名称" align="center">
           <template slot-scope="scope">
             <span style="margin-left:10px;">{{ scope.row.activity_name}}</span>

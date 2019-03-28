@@ -93,17 +93,16 @@
           </template>
         </el-table-column>
 
+        <el-table-column label="产品class（审核）" align="center">
+          <template slot-scope="scope">
+            <span style="margin-left:10px;">{{ scope.row.product_class}}</span>
+          </template>
+        </el-table-column>
 
         <el-table-column label="状态" align="center">
           <template slot-scope="scope">
             <el-tag v-if="scope.row.is_new == 1">新品</el-tag>
             <el-tag type="danger" v-if="scope.row.in_review == 1">审核</el-tag>
-          </template>
-        </el-table-column>
-
-        <el-table-column label="产品class（审核）" align="center">
-          <template slot-scope="scope">
-            <span style="margin-left:10px;">{{ scope.row.product_class}}</span>
           </template>
         </el-table-column>
 

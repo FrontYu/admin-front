@@ -135,7 +135,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="股票走势图" align="center" height="10px">
+        <!-- <el-table-column label="股票走势图" align="center" height="10px">
           <template slot-scope="scope">
             <el-popover placement="right" title="" trigger="hover">
               <img :src="scope.row.stock_trend_image_url" style="max-height: 200px;max-width: 600px" />
@@ -143,7 +143,7 @@
                 style="max-height: 50px;max-width: 130px">
             </el-popover>
           </template>
-        </el-table-column>
+        </el-table-column> -->
 
         <el-table-column label="产品名称" align="center">
           <template slot-scope="scope">

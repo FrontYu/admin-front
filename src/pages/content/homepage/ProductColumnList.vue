@@ -134,7 +134,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="显示价格" align="center">
+        <!-- <el-table-column label="显示价格" align="center">
           <template slot-scope="scope">
             <span style="margin-left:10px;">{{ scope.row.price}}</span>
           </template>
@@ -144,7 +144,7 @@
           <template slot-scope="scope">
             <span style="margin-left:10px;">{{ scope.row.subscribe_num}}</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
 
         <el-table-column label="状态" align="center">
           <template slot-scope="scope">

@@ -104,12 +104,6 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="跳转地址" align="center">
-          <template slot-scope="scope">
-            <span style="margin-left:10px;">{{ scope.row.jump_url}}</span>
-          </template>
-        </el-table-column>
-
         <el-table-column label="状态" align="center">
           <template slot-scope="scope">
             <el-tag v-if="scope.row.is_show == 1">显示</el-tag>
@@ -125,8 +119,9 @@
         </el-table-column>
       </el-table>
       <!-- 分页 -->
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" background :current-page="currentPage"
-        :page-sizes="[10, 20, 30, 40]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageTotal"></el-pagination>
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" background
+        :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper" :total="pageTotal"></el-pagination>
 
       <!-- 编辑界面 -->
       <!-- 弹窗 -->

@@ -92,13 +92,6 @@
           </template>
         </el-table-column>
 
-
-        <el-table-column label="跳转地址" align="center">
-          <template slot-scope="scope">
-            <span style="margin-left:10px;">{{ scope.row.jump_url}}</span>
-          </template>
-        </el-table-column>
-
         <el-table-column label="开始时间" align="center" width="180">
           <template slot-scope="scope">
             <i class="el-icon-time"></i>
