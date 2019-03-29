@@ -1,21 +1,24 @@
 <template>
   <div class="page">
     <div class="login-box">
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="0px" class="demo-ruleForm login-container"
-        status-icon>
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="0px"
+        class="demo-ruleForm login-container" status-icon>
         <h3 class="title">系统登录</h3>
         <el-form-item prop="account">
-          <el-input type="text" v-model="ruleForm.account" auto-complete="off" placeholder="账号" id="loginEmail"></el-input>
+          <el-input type="text" v-model="ruleForm.account" auto-complete="off" placeholder="账号" id="loginEmail">
+          </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input type="password" v-model="ruleForm.password" auto-complete="off" placeholder="密码" id="loginPassword"></el-input>
+          <el-input type="password" v-model="ruleForm.password" auto-complete="off" placeholder="密码" id="loginPassword">
+          </el-input>
           <label id="showPasswordToggle">
             <el-checkbox v-model="checked" id="showPasswordCheck">显示密码</el-checkbox>
           </label>
           <router-link to="/" style="float: right; color: #bbbbbb">忘记密码？</router-link>
         </el-form-item>
         <el-form-item style="width:100%;">
-          <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit" :loading="logining">登录</el-button>
+          <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit" :loading="logining">登录
+          </el-button>
         </el-form-item>
         <el-form-item style="width:100%;">
           <router-link to="/register">
@@ -28,7 +31,7 @@
 </template>
 
 <script>
-  import sha256 from "crypto-js/sha256"
+  //   import sha256 from "crypto-js/sha256"
   import {
     requestLogin
   } from "@/api/user"
@@ -63,10 +66,12 @@
         this.$refs.ruleForm.validate((valid) => {
           if (valid) {
             this.logining = true
+            const sha256 = require("js-sha256").sha256 //引入sha256库
             const loginParams = {
               username: this.ruleForm.account,
               password: sha256(this.ruleForm.password)
             }
+            console.log("loginParams", loginParams)
             requestLogin(loginParams).then(data => {
               this.logining = false
               this.$message({
