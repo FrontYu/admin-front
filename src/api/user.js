@@ -14,7 +14,7 @@ export const requestRegister = params => {
 }
 
 export const requestUserInfo = params => {
-  return request('GET', '/api/user/info', params).then((data) => {
+  return request('GET', '/api/auth/info', params).then((data) => {
     sessionStorage.setItem('user-info', JSON.stringify(data))
     return data
   })
