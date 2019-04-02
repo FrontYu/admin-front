@@ -213,7 +213,6 @@
           condition.end_date = moment(this.searchForm.dateRange[1]).utcOffset(8).format('YYYY-MM-DD')
         }
 
-        console.log("condition:", condition)
         requestCountOrderQuery(condition).then((res) => {
           this.$message({
             'message': '查询成功',

@@ -45,13 +45,13 @@ axios.defaults.baseURL = 'http://127.0.0.1:9420'
 // axios.defaults.baseURL = 'http://120.25.250.237:9420'
 axios.interceptors.request.use(function (config) {
   var token = localStorage.getItem('user-token')
-  console.log("token", token)
   if (token) {
     token = token.replace("\"", "").replace("\"", "")
   }
-  //   config.headers.Authorization = localStorage.getItem('user-token')
+  if (token === null) {
+    token = ""
+  }
   config.headers.Authorization = token
-  console.log("config:", config)
   return config
 })
 

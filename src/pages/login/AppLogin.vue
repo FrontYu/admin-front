@@ -9,10 +9,11 @@
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input type="password" v-model="ruleForm.password" auto-complete="off" placeholder="密码" id="loginPassword">
+          <el-input :type="passwordType" v-model="ruleForm.password" auto-complete="off" placeholder="密码"
+            id="loginPassword">
           </el-input>
-          <label id="showPasswordToggle">
-            <el-checkbox v-model="checked" id="showPasswordCheck">显示密码</el-checkbox>
+          <label>
+            <el-checkbox v-model="checked" @change="showPasswordToggle()">显示密码</el-checkbox>
           </label>
           <router-link to="/" style="float: right; color: #bbbbbb">忘记密码？</router-link>
         </el-form-item>
@@ -41,6 +42,7 @@
     data() {
       return {
         logining: false,
+        passwordType: "password",
         fromUrl: '/',
         ruleForm: {
           account: 'admin',
@@ -71,7 +73,7 @@
               username: this.ruleForm.account,
               password: sha256(this.ruleForm.password)
             }
-            console.log("loginParams", loginParams)
+            // console.log("loginParams", loginParams)
             requestLogin(loginParams).then(data => {
               this.logining = false
               this.$message({
@@ -88,6 +90,13 @@
             return false
           }
         })
+      },
+      showPasswordToggle() {
+        if (this.passwordType === 'password') {
+          this.passwordType = 'text'
+        } else {
+          this.passwordType = 'password'
+        }
       }
     },
     beforeRouteEnter(to, from, next) {
@@ -96,7 +105,8 @@
           vm.fromUrl = from.fullPath
         }
       })
-    }
+    },
+
   }
 
 </script>

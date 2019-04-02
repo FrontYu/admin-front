@@ -70,13 +70,13 @@ const staticRouter = [{
     component: FuncHome
   }]
 }, {
-  path: '/',
+  path: '/content/',
   component: TheLayout,
   menu: true,
   name: 'menu.content',
   icon: 'el-icon-info',
   children: [{
-    path: '/',
+    path: '/content/copywriter',
     name: 'menu.copywriter',
     icon: 'el-icon-edit',
     component: TheLayoutMain,
@@ -141,7 +141,7 @@ const staticRouter = [{
     }]
   }]
 }, {
-  path: '/',
+  path: '/product',
   component: TheLayout,
   menu: true,
   name: 'menu.product',
@@ -164,7 +164,7 @@ const staticRouter = [{
     component: RecommendProductList
   }]
 }, {
-  path: '/',
+  path: '/coupon',
   component: TheLayout,
   menu: true,
   name: 'menu.coupon',
@@ -183,7 +183,7 @@ const staticRouter = [{
     component: CouponRecordList
   }]
 }, {
-  path: '/',
+  path: '/user',
   component: TheLayout,
   menu: true,
   name: 'menu.user',
@@ -202,7 +202,7 @@ const staticRouter = [{
     component: UserFeedbackList
   }]
 }, {
-  path: '/',
+  path: '/count',
   component: TheLayout,
   menu: true,
   name: 'menu.count',
@@ -219,7 +219,7 @@ const staticRouter = [{
     }
   ]
 }, {
-  path: '/',
+  path: '/sys',
   component: TheLayout,
   menu: true,
   name: 'menu.sys',
