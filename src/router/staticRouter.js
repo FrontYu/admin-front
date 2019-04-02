@@ -23,6 +23,7 @@ import UserServiceList from '@/pages/user/service/UserServiceList'
 import UserFeedbackList from '@/pages/user/feedback/UserFeedbackList'
 
 import CouponManageList from '@/pages/coupon/manage/CouponManageList'
+import GpxjCouponManageList from '@/pages/coupon/manage/GpxjCouponManageList'
 import CouponActivityList from '@/pages/coupon/activity/CouponActivityList'
 import CouponRecordList from '@/pages/coupon/record/CouponRecordList'
 
@@ -173,6 +174,10 @@ const staticRouter = [{
     path: '/coupon/manage/list',
     name: 'menu.couponManage',
     component: CouponManageList
+  }, {
+    path: '/coupon/gpxj/list',
+    name: 'menu.gpxjCouponManage',
+    component: GpxjCouponManageList
   }, {
     path: '/coupon/activity/list',
     name: 'menu.couponActivity',

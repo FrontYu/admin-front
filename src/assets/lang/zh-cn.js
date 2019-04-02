@@ -55,6 +55,7 @@ export default {
 
     coupon: '优惠券模块',
     couponManage: '优惠券管理',
+    gpxjCouponManage: '先机优惠券',
     couponActivity: '活动配置',
     couponRecord: '领取记录',
 

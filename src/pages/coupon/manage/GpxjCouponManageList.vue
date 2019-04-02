@@ -3,17 +3,12 @@
     <el-breadcrumb>
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>优惠券模块</el-breadcrumb-item>
-      <el-breadcrumb-item>优惠券管理</el-breadcrumb-item>
+      <el-breadcrumb-item>先机优惠券管理</el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-card style="margin-top: 20px;">
       <!-- 搜索 -->
       <el-form :inline="true" :model="searchForm" ref="searchForm">
-        <!--         
-        <el-form-item>
-          <el-button type="danger" @click="handleAdd()">新增</el-button>
-        </el-form-item>
- -->
 
         <el-form-item label="优惠券类型" prop="type">
           <el-select v-model="searchForm.type" placeholder="请选择">
@@ -107,9 +102,6 @@
                 <span>{{ props.row.exp_end_date}}</span>
               </el-form-item>
 
-              <el-form-item label="活动名称">
-                <span>{{ props.row.activity}}</span>
-              </el-form-item>
               <el-form-item label="状态">
                 <el-tag v-if="props.row.enable == 1">显示</el-tag>
                 <el-tag type="danger" v-else>隐藏</el-tag>
@@ -183,10 +175,10 @@
 
 <script>
   import {
-    requestCouponQuery
+    requestGpxjCouponQuery
   } from "@/api/coupon/manage"
   export default {
-    name: 'CouponManageList',
+    name: 'GpxjCouponManageList',
     data() {
       return {
         tableData: [],
@@ -225,7 +217,7 @@
       //   获取列表数据 start
       getData() {
         this.listLoading = true
-        requestCouponQuery(this.searchForm).then((res) => {
+        requestGpxjCouponQuery(this.searchForm).then((res) => {
           this.$message({
             'message': '查询成功',
             'type': 'success'

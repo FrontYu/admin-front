@@ -6,6 +6,11 @@ export const requestCouponQuery = params => {
   return getRequest('GET', '/api/coupon/manage', params)
 }
 
+export const requestGpxjCouponQuery = params => {
+  return getRequest('GET', '/api/coupon/gpxj', params)
+}
+
+
 export const requestCouponAdd = params => {
   return request('POST', '/api/coupon/manage', params)
 }

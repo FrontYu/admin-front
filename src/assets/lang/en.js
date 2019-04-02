@@ -56,6 +56,7 @@ export default {
 
     coupon: 'Coupon',
     couponManage: 'Coupon Manage',
+    gpxjCouponManage: 'Gpxj Coupon Manage',
     couponActivity: 'Activity Setting',
     couponRecord: 'Receive Record',
 
