@@ -164,6 +164,17 @@
           <template slot-scope="scope">
             <el-tag v-if="scope.row.enable == 1">显示</el-tag>
             <el-tag type="danger" v-else>隐藏</el-tag>
+
+            </el-switch>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="状态" align="center">
+          <template slot-scope="scope">
+            <el-switch style="display: block" v-model="scope.row.enable" active-color="#13ce66" inactive-color="#ff4949"
+              active-text="显示" inactive-text="隐藏" active-value="1" inactive-value="0"
+              @change="switchCouponStatus(scope.$index, scope.row)">
+            </el-switch>
           </template>
         </el-table-column>
 
@@ -183,7 +194,8 @@
 
 <script>
   import {
-    requestCouponQuery
+    requestCouponQuery,
+    requestCouponStatusUpdate
   } from "@/api/coupon/manage"
   export default {
     name: 'CouponManageList',
@@ -244,6 +256,31 @@
         this.currentPage = currentPage
       },
       //   获取列表数据 end
+
+      //   切换状态 start
+      switchCouponStatus(index, row) {
+        this.$confirm('此操作将修改优惠券状态, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let tmpData = {
+            coupon_id: row.coupon_id
+          }
+          requestCouponStatusUpdate(tmpData).then(data => {
+            this.$message({
+              message: '修改成功',
+              type: 'success'
+            })
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消修改'
+          });
+        });
+      },
+      //   切换状态 end
     },
     mounted() {
       this.getData()

@@ -41,8 +41,8 @@ import {
  **/
 /* 为每个请求设置默认baseURL，并添加token */
 // axios.defaults.baseURL = ''
-// axios.defaults.baseURL = 'http://127.0.0.1:9420'
-axios.defaults.baseURL = 'http://120.25.250.237:9420'
+axios.defaults.baseURL = 'http://127.0.0.1:9420'
+// axios.defaults.baseURL = 'http://120.25.250.237:9420'
 axios.interceptors.request.use(function (config) {
   var token = localStorage.getItem('user-token')
   if (token) {
@@ -63,6 +63,7 @@ export const request = (method, url, params, config = {}, auto_error_res = true,
     'url': url,
     'data': params
   }, config)
+
   return axios(args).then((res) => {
     if (!res.data.success) {
       res.data.error = res.data.error || {}

@@ -18,6 +18,10 @@ export const requestCouponUpdate = params => {
   return request('PUT', '/api/coupon/manage', params)
 }
 
+export const requestCouponStatusUpdate = params => {
+  return request('PUT', '/api/coupon/status', params)
+}
+
 export const requestCouponDelete = params => {
   return request('DELETE', '/api/coupon/manage', params)
 }
